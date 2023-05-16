@@ -6,7 +6,10 @@ export const colors={
     dark:"#654E92",
 
     bgLight:"#FDF4F5",
-
+    bgGreen:"#F6FFDE",
+    darkGreen: "#C9DBB2",
+    darkShadowGreen:"#AAC8A7",
+    darkBlue: "#332FD0",
 
     textDark:"#301E67",
     textLight:"#635985",
