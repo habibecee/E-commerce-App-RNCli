@@ -63,18 +63,18 @@ export default function Products() {
                   style={styles.productImage}
                 />
                 <Text style={styles.productTitle}>{item.item.title}</Text>
-                <View style={styles.editIconContainer}>
+                {/* <View style={styles.editIconContainer}>
                   <TouchableOpacity
                     onPress={() => {
-                      navigate('ProductUpdate', {id: item.item.id});
+                      navigate('ProductUpdate', item);
                     }}>
                     <Icon
                       name="pencil-sharp"
-                      size={20}
+                      size={18}
                       color={colors.darkBlue}
                     />
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
             </TouchableOpacity>
           );
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     flexDirection: 'row',
-    gap: 20,
+    gap: 10,
     marginVertical: 10,
     alignItems: 'center',
     borderBottomWidth: 1,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
 
   productTitle: {
     fontFamily: fonts.bold,
-    fontSize: 20,
+    fontSize: 18,
     color: colors.textDark,
   },
 
@@ -136,5 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
+    padding: 10,
+    marginLeft: 10,
   },
 });

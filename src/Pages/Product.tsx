@@ -8,14 +8,17 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import axiosInstance from '../Utils/axios';
 import {colors, fonts} from '../Utils/GeneralStyles';
 import {ProductsProps} from '../Types/Types';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Product() {
+  const {navigate} = useNavigation();
   const dimensions = Dimensions.get('window');
   const [product, setProduct] = useState({
     id: 2,
@@ -90,29 +93,34 @@ export default function Product() {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
       />
-      {/* <Image
-        source={{uri: product?.thumbnail}}
-        style={styles.Image}
-        resizeMode="contain"
-      /> */}
+
       <View style={styles.DescriptionContainer}>
-        <Text style={styles.brand}> {product?.brand} </Text>
-        <Text style={styles.title}> {product?.title} </Text>
-        <Text style={styles.price}>
-          {' '}
-          {product?.price}${' '}
-          <Text style={styles.discountPercentage}>
+        <ScrollView style={styles.scrollView}>
+          <Text style={styles.brand}> {product?.brand} </Text>
+          <Text style={styles.title}> {product?.title} </Text>
+          <Text style={styles.price}>
             {' '}
-            %{product?.discountPercentage}{' '}
-          </Text>{' '}
-        </Text>
-        <Text style={styles.description}> {product?.description} </Text>
+            {product?.price}${' '}
+            <Text style={styles.discountPercentage}>
+              {' '}
+              %{product?.discountPercentage}{' '}
+            </Text>{' '}
+          </Text>
+          <Text style={styles.description}> {product?.description} </Text>
+        </ScrollView>
       </View>
-      <TouchableOpacity onPress={() => addCarts()}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}> Add To Cart </Text>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => navigate('ProductUpdate', product)}>
+          <View style={styles.button}>
+            <Icon name="pencil-sharp" style={styles.buttonText} size={24} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => addCarts()}>
+          <View style={styles.button}>
+            <Icon name="cart-sharp" style={styles.buttonText} size={24} />
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -143,11 +151,15 @@ const styles = StyleSheet.create({
 
   DescriptionContainer: {
     flex: 1,
-    gap: 10,
-    alignItems: 'center',
     backgroundColor: colors.bgLight,
+    margin: 15,
+    minHeight: 200,
+  },
+
+  scrollView: {
+    backgroundColor: colors.bgLight,
+    gap: 10,
     padding: 5,
-    top: -120,
   },
 
   Image: {
@@ -182,14 +194,27 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
   },
 
-  button: {
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     width: '100%',
+    height: 100,
+    backgroundColor: colors.bgLight,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+  },
+
+  button: {
+    position: 'relative',
+    margin: 10,
     height: 50,
     backgroundColor: colors.secondary,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    marginBottom: 10,
     paddingHorizontal: 10,
     paddingVertical: 10,
     shadowColor: '#000',
