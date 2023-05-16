@@ -15,10 +15,11 @@ import axiosInstance from '../Utils/axios';
 import {ProductsProps} from '../Types/Types';
 import Product from './Product';
 import {colors, fonts} from '../Utils/GeneralStyles';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Products() {
   const [products, setProducts] = useState<ProductsProps | []>([]);
-  const navigation = useNavigation();
+  const {navigate, setOptions} = useNavigation();
 
   const fetchProducts = () => {
     axiosInstance.get('products').then(response => {
@@ -31,14 +32,20 @@ export default function Products() {
   }, []);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
+    setOptions({
       headerRight: () => {
+        return <Button title="Cart" onPress={() => navigate('Cart')} />;
+      },
+      headerLeft: () => {
         return (
-          <Button title="Cart" onPress={() => navigation.navigate('Cart')} />
+          <Button
+            title="Add Product"
+            onPress={() => navigate('ProductCreate')}
+          />
         );
       },
     });
-  }, [navigation]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,7 +55,7 @@ export default function Products() {
           return (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Product', {id: item.item.id});
+                navigate('Product', {id: item.item.id});
               }}>
               <View style={styles.productContainer}>
                 <Image
@@ -56,6 +63,18 @@ export default function Products() {
                   style={styles.productImage}
                 />
                 <Text style={styles.productTitle}>{item.item.title}</Text>
+                {/* <View style={styles.editIconContainer}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigate('ProductUpdate', item);
+                    }}>
+                    <Icon
+                      name="pencil-sharp"
+                      size={18}
+                      color={colors.darkBlue}
+                    />
+                  </TouchableOpacity>
+                </View> */}
               </View>
             </TouchableOpacity>
           );
@@ -65,7 +84,7 @@ export default function Products() {
         <Text>Products</Text>
         <Button
           title="Go Details"
-          onPress={() => navigation.navigate('Product')}
+          onPress={() => navigate('Product')}
         />
       </View> */}
     </SafeAreaView>
@@ -86,7 +105,7 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     flexDirection: 'row',
-    gap: 20,
+    gap: 10,
     marginVertical: 10,
     alignItems: 'center',
     borderBottomWidth: 1,
@@ -108,7 +127,16 @@ const styles = StyleSheet.create({
 
   productTitle: {
     fontFamily: fonts.bold,
-    fontSize: 20,
+    fontSize: 18,
     color: colors.textDark,
+  },
+
+  editIconContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: 10,
+    marginLeft: 10,
   },
 });

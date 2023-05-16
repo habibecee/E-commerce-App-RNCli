@@ -4,6 +4,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Products from './src/Pages/Products';
 import Product from './src/Pages/Product';
 import Cart from './src/Pages/Cart';
+import ProductCreate from './src/Pages/ProductCreate';
+import ProductUpdate from './src/Pages/ProductUpdate';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +16,8 @@ function App(): JSX.Element {
         <Stack.Screen name="Products" component={Products} />
         <Stack.Screen name="Product" component={Product} />
         <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen name="ProductCreate" component={ProductCreate} />
+        <Stack.Screen name="ProductUpdate" component={ProductUpdate} />
       </Stack.Navigator>
     </NavigationContainer>
   );
