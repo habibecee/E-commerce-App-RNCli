@@ -7,6 +7,7 @@ import {
   useWindowDimensions,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
@@ -16,15 +17,47 @@ import {ProductsProps} from '../Types/Types';
 
 export default function Product() {
   const dimensions = Dimensions.get('window');
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({
+    id: 2,
+    title: 'iPhone X',
+    description:
+      'SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...',
+    price: 899,
+    discountPercentage: 17.94,
+    rating: 4.44,
+    stock: 34,
+    brand: 'Apple',
+    category: 'smartphones',
+    thumbnail: 'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
+    images: [
+      'https://i.dummyjson.com/data/products/2/1.jpg',
+      'https://i.dummyjson.com/data/products/2/2.jpg',
+      'https://i.dummyjson.com/data/products/2/3.jpg',
+      'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
+    ],
+  });
 
   //   object destructuring
-  const {params} = useRoute();
+  const {params} = useRoute<RouteProp<RouteProps>>();
 
   const fetchProduct = () => {
     axiosInstance.get(`products/${params?.id}`).then(response => {
       setProduct(response.data);
     });
+  };
+
+  const addCarts = () => {
+    axiosInstance
+      .post('carts', product)
+      .then(response => {
+        if (response.status === 201 && response.data) {
+          setProduct(response.data);
+          Alert.alert('Success', 'Product added to cart');
+        }
+      })
+      .catch(error => {
+        Alert.alert('Error', 'Product could not be added to cart');
+      });
   };
 
   useEffect(() => {
@@ -75,7 +108,7 @@ export default function Product() {
         </Text>
         <Text style={styles.description}> {product?.description} </Text>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => addCarts()}>
         <View style={styles.button}>
           <Text style={styles.buttonText}> Add To Cart </Text>
         </View>
@@ -138,9 +171,9 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
   discountPercentage: {
-    fontFamily: fonts.regular,
-    fontSize: 18,
-    textDecorationLine: 'line-through',
+    fontFamily: fonts.bold,
+    fontSize: 20,
+    // textDecorationLine: 'line-through',
     color: colors.textLight,
   },
   description: {

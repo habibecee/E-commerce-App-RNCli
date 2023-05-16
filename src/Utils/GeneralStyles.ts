@@ -13,6 +13,8 @@ export const colors={
     textPrimary:"#393053",
     textSecondary:"#443C68",
 
+    red: "#FF6969",
+
 
 }
 
