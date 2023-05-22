@@ -9,39 +9,31 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useContext, useLayoutEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import axiosInstance from '../Utils/axios';
-import {ProductsProps} from '../Types/Types';
-import Product from './Product';
 import {colors, fonts} from '../Utils/GeneralStyles';
+import {MainContext} from '../Context/Context';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Products() {
-  const [products, setProducts] = useState<ProductsProps | []>([]);
   const {navigate, setOptions} = useNavigation();
 
-  const fetchProducts = () => {
-    axiosInstance.get('products').then(response => {
-      setProducts(response.data);
-    });
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const {products} = useContext(MainContext);
 
   useLayoutEffect(() => {
     setOptions({
       headerRight: () => {
-        return <Button title="Cart" onPress={() => navigate('Cart')} />;
+        return (
+          <TouchableOpacity onPress={() => navigate('Cart')}>
+            <Icon name="cart-sharp" size={24} color={colors.darkGreen} />
+          </TouchableOpacity>
+        );
       },
       headerLeft: () => {
         return (
-          <Button
-            title="Add Product"
-            onPress={() => navigate('ProductCreate')}
-          />
+          <TouchableOpacity onPress={() => navigate('ProductCreated')}>
+            <Icon name="add-circle-sharp" size={24} color={colors.darkBlue} />
+          </TouchableOpacity>
         );
       },
     });
@@ -54,6 +46,7 @@ export default function Products() {
         renderItem={item => {
           return (
             <TouchableOpacity
+              key={item.item.id}
               onPress={() => {
                 navigate('Product', {id: item.item.id});
               }}>
@@ -63,30 +56,11 @@ export default function Products() {
                   style={styles.productImage}
                 />
                 <Text style={styles.productTitle}>{item.item.title}</Text>
-                {/* <View style={styles.editIconContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigate('ProductUpdate', item);
-                    }}>
-                    <Icon
-                      name="pencil-sharp"
-                      size={18}
-                      color={colors.darkBlue}
-                    />
-                  </TouchableOpacity>
-                </View> */}
               </View>
             </TouchableOpacity>
           );
         }}
       />
-      {/* <View>
-        <Text>Products</Text>
-        <Button
-          title="Go Details"
-          onPress={() => navigate('Product')}
-        />
-      </View> */}
     </SafeAreaView>
   );
 }
@@ -95,7 +69,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: colors.bgLight,
     paddingHorizontal: 20,
     paddingVertical: 20,
