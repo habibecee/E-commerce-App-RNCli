@@ -2,102 +2,112 @@ import {
   View,
   Text,
   TextInput,
+  TouchableOpacity,
   StyleSheet,
   ScrollView,
   Alert,
-  TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {colors, fonts} from '../Utils/GeneralStyles';
+import {useNavigation} from '@react-navigation/native';
 import axiosInstance from '../Utils/axios';
+import {MainContext} from '../Context/Context';
 
-export default function ProductCreate() {
-  const [product, setProduct] = useState({
-    title: '',
-    description: '',
-    price: 0,
-    discountPercentage: 0,
-    rating: 0,
-    stock: 0,
-    brand: '',
-    category: '',
-    thumbnail: 'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
-    images: [
-      'https://i.dummyjson.com/data/products/2/1.jpg',
-      'https://i.dummyjson.com/data/products/2/2.jpg',
-      'https://i.dummyjson.com/data/products/2/3.jpg',
-      'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
-    ],
-  });
+export default function ProductUpdate(props) {
+  const {fetchProducts} = useContext(MainContext);
+  const {navigate} = useNavigation();
+  const [product, setProduct] = useState(props.route.params);
 
-  const onChangeText = (key: string, value: string) => {
+  const onChangeUpdate = (key, value) => {
     setProduct({...product, [key]: value});
   };
 
-  const productCreate = () => {
-    axiosInstance.post('products', product).then(respponse => {
-      const {data, status} = response;
+  function productUpdate() {
+    axiosInstance
+      .put(`products/${product.id}`, product)
+      .then(response => {
+        if (response.status === 200 && response.data) {
+          setProduct(response.data);
+          Alert.alert('Success', `Product updated! >>> ${response.data.title}`);
+        }
 
-      if (status === 200 && data) {
-        Alert.alert('Success', `Product added to list! >> ${data.title}`);
-        setProduct(data);
-      }
-    });
-  };
+        setTimeout(() => {
+          navigate('Products');
+        }, 2000);
+      })
+      .catch(error => {
+        Alert.alert('Error', 'Product could not be updated!');
+      });
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, [product]);
 
   return (
     <View style={styles.container}>
       <View style={styles.scrollViewContainer}>
         <ScrollView style={styles.scrollView}>
-          <Text style={styles.inputSubText}>Enter Product Details </Text>
+          <Text style={styles.inputSubText}>Update Product Details </Text>
           <TextInput
             placeholder="Title"
             style={styles.inputContainer}
-            onChangeText={text => onChangeText('title', text)}
+            onChangeText={text => onChangeUpdate('title', text)}
+            defaultValue={product?.title}
           />
           <TextInput
             placeholder="Description"
             style={styles.inputContainer}
-            onChangeText={text => onChangeText('description', text)}
+            onChangeText={text => onChangeUpdate('description', text)}
+            defaultValue={product?.description}
           />
           <TextInput
             placeholder="Price"
             style={styles.inputContainer}
-            onChangeText={text => onChangeText('price', text)}
+            onChangeText={text => onChangeUpdate('price', text)}
+            defaultValue={String(product?.price)}
           />
           <TextInput
             placeholder="DiscountPercentage"
             style={styles.inputContainer}
-            onChangeText={text => onChangeText('discountPercentage', text)}
+            onChangeText={text => onChangeUpdate('discountPercentage', text)}
+            defaultValue={String(product?.discountPercentage)}
           />
           <TextInput
             placeholder="Stock"
             style={styles.inputContainer}
-            onChangeText={text => onChangeText('stock', text)}
+            onChangeText={text => onChangeUpdate('stock', text)}
+            defaultValue={String(product?.stock)}
           />
           <TextInput
             placeholder="Brand"
             style={styles.inputContainer}
-            onChangeText={text => onChangeText('brand', text)}
+            onChangeText={text => onChangeUpdate('brand', text)}
+            defaultValue={product?.brand}
           />
           <TextInput
             placeholder="Category"
             style={styles.inputContainer}
-            onChangeText={text => onChangeText('category', text)}
+            onChangeText={text => onChangeUpdate('category', text)}
+            defaultValue={product?.category}
           />
           <TextInput
             placeholder="Thumbnail"
             style={styles.inputContainer}
-            value={product.thumbnail}
+            defaultValue={product?.thumbnail}
           />
-          {/* <TextInput placeholder="Images" style={styles.inputContainer}  /> */}
+
           <TextInput
             placeholder="Rating"
             style={styles.inputContainer}
-            onChangeText={text => onChangeText('rating', text)}
+            onChangeText={text => onChangeUpdate('rating', text)}
+            defaultValue={String(product?.rating)}
           />
         </ScrollView>
-        <TouchableOpacity onPress={() => productCreate()}>
+        <TouchableOpacity
+          onPress={() => {
+            productUpdate();
+          }}>
           <View style={styles.button}>
             <Text style={styles.buttonText}> Add To Product List </Text>
           </View>

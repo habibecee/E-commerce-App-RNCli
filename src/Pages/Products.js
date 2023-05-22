@@ -9,27 +9,17 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import axiosInstance from '../Utils/axios';
 import {ProductsProps} from '../Types/Types';
-import Product from './Product';
 import {colors, fonts} from '../Utils/GeneralStyles';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {MainContext} from '../Context/Context';
 
 export default function Products() {
-  const [products, setProducts] = useState<ProductsProps | []>([]);
   const {navigate, setOptions} = useNavigation();
 
-  const fetchProducts = () => {
-    axiosInstance.get('products').then(response => {
-      setProducts(response.data);
-    });
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const {products} = useContext(MainContext);
 
   useLayoutEffect(() => {
     setOptions({
@@ -54,6 +44,7 @@ export default function Products() {
         renderItem={item => {
           return (
             <TouchableOpacity
+              key={item.item.id}
               onPress={() => {
                 navigate('Product', {id: item.item.id});
               }}>
@@ -63,30 +54,11 @@ export default function Products() {
                   style={styles.productImage}
                 />
                 <Text style={styles.productTitle}>{item.item.title}</Text>
-                {/* <View style={styles.editIconContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigate('ProductUpdate', item);
-                    }}>
-                    <Icon
-                      name="pencil-sharp"
-                      size={18}
-                      color={colors.darkBlue}
-                    />
-                  </TouchableOpacity>
-                </View> */}
               </View>
             </TouchableOpacity>
           );
         }}
       />
-      {/* <View>
-        <Text>Products</Text>
-        <Button
-          title="Go Details"
-          onPress={() => navigate('Product')}
-        />
-      </View> */}
     </SafeAreaView>
   );
 }
@@ -95,7 +67,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: colors.bgLight,
     paddingHorizontal: 20,
     paddingVertical: 20,

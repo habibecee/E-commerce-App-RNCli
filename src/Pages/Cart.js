@@ -1,60 +1,22 @@
 import {
   View,
   Text,
-  ScrollView,
   Image,
   StyleSheet,
-  Button,
   FlatList,
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axiosInstance from '../Utils/axios';
-import {ProductsProps} from '../Types/Types';
 import {colors, fonts} from '../Utils/GeneralStyles';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {MainContext} from '../Context/Context';
 
 export default function Cart() {
   const navigation = useNavigation();
-  const [carts, setCarts] = useState<ProductsProps[] | []>([]);
-  const [deleteItem, setDeleteItem] = useState<ProductsProps[] | []>([]);
-
-  const fetchCart = () => {
-    axiosInstance
-      .get('carts')
-      .then(response => {
-        const {status, data} = response;
-
-        if (status === 200) {
-          setCarts(data);
-        }
-      })
-      .catch(error => {
-        console.log('error:', error);
-      });
-  };
-
-  const deleteCarts = (cartId: number) => {
-    axiosInstance
-      .delete(`carts/${cartId}`)
-      .then(response => {
-        const {status} = response;
-
-        if (status === 200) {
-          Alert.alert('Success', 'Item Deleted From The Cart!');
-          fetchCart();
-        }
-      })
-      .catch(error => {
-        return Alert.alert('Error', 'Product not found!');
-      });
-  };
-
-  useEffect(() => {
-    fetchCart();
-  }, []);
+  const {carts, deleteCarts} = useContext(MainContext);
 
   const _renderCart =
     carts && carts?.length > 0 ? (
@@ -81,9 +43,6 @@ export default function Cart() {
                     <Text style={styles.title}>{cart.item.title} </Text>
                   </View>
                   <Text style={styles.price}>{cart.item.price}$ </Text>
-                  {/* <Text style={styles.discountPercentage}>
-                    %{cart.item.discountPercentage}{' '}
-                  </Text> */}
                   <TouchableOpacity onPress={() => deleteCarts(cart?.item.id)}>
                     <View>
                       <Icon name="trash" size={24} color={colors.red} />
@@ -94,9 +53,7 @@ export default function Cart() {
             );
           }}
         />
-        <View style={styles.SubContainer}>
-          <Text style={styles.SubText}> Total: {} </Text>
-        </View>
+
         <TouchableOpacity>
           <View style={styles.buttonContinue}>
             <Text style={styles.buttonText}> Continue </Text>

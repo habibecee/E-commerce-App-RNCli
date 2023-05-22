@@ -4,80 +4,28 @@ import {
   StyleSheet,
   Image,
   FlatList,
-  useWindowDimensions,
   Dimensions,
   TouchableOpacity,
-  Alert,
   ScrollView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import axiosInstance from '../Utils/axios';
+import React, {useContext} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {colors, fonts} from '../Utils/GeneralStyles';
-import {ProductsProps} from '../Types/Types';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {MainContext} from '../Context/Context';
 
-export default function Product() {
+export default function Product({route}) {
   const {navigate} = useNavigation();
   const dimensions = Dimensions.get('window');
-  const [product, setProduct] = useState({
-    id: 2,
-    title: 'iPhone X',
-    description:
-      'SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...',
-    price: 899,
-    discountPercentage: 17.94,
-    rating: 4.44,
-    stock: 34,
-    brand: 'Apple',
-    category: 'smartphones',
-    thumbnail: 'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
-    images: [
-      'https://i.dummyjson.com/data/products/2/1.jpg',
-      'https://i.dummyjson.com/data/products/2/2.jpg',
-      'https://i.dummyjson.com/data/products/2/3.jpg',
-      'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
-    ],
-  });
 
-  //   object destructuring
-  const {params} = useRoute<RouteProp<RouteProps>>();
+  const {products} = useContext(MainContext);
+  const productId = route.params.id;
+  const product = products?.find(product => product?.id === productId);
 
-  const fetchProduct = () => {
-    axiosInstance.get(`products/${params?.id}`).then(response => {
-      setProduct(response.data);
-    });
-  };
-
-  const addCarts = () => {
-    axiosInstance
-      .post('carts', product)
-      .then(response => {
-        if (response.status === 201 && response.data) {
-          setProduct(response.data);
-          Alert.alert('Success', 'Product added to cart');
-        }
-      })
-      .catch(error => {
-        Alert.alert('Error', 'Product could not be added to cart');
-      });
-  };
-
-  useEffect(() => {
-    fetchProduct();
-  }, []);
-
-  //   İKİNCİ USEEFFECT ID DEĞİŞTİĞİ DURUMDA SAĞLIKLI BİR ŞEKİLDE
-  //   YENİDEN RENDER EDİLMESİ İÇİN VERİLDİ!!!
-
-  useEffect(() => {
-    fetchProduct();
-  }, [params]);
-
-  const _renderItem = ({item}: {item: []}) => (
+  const _renderItem = item => (
     <View style={styles.ThumbnailContainer}>
       <Image
-        source={{uri: item}}
+        source={{uri: item?.item}}
         style={styles.Thumbnail}
         resizeMode="contain"
       />
@@ -87,6 +35,7 @@ export default function Product() {
   return (
     <View style={styles.container}>
       <FlatList
+        key={product?.id}
         data={product?.images}
         renderItem={_renderItem}
         horizontal

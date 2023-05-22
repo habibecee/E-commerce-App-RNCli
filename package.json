@@ -9,7 +9,7 @@
     "pod": "cd ios && pod install && cd ..",
     "gradlew": "cd android && ./gradlew clean && cd ..",
     "start": "react-native start --reset-cache",
-    "json-server": "json-server --watch db.json --port 3001",
+    "db": "json-server --watch db.json --port 3001",
     "test": "jest"
   },
   "dependencies": {

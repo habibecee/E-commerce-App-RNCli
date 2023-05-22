@@ -2,103 +2,69 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Alert,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {colors, fonts} from '../Utils/GeneralStyles';
-import axiosInstance from '../Utils/axios';
-import {useNavigation} from '@react-navigation/native';
+import {MainContext} from '../Context/Context';
 
-export default function ProductUpdate(props: any) {
-  console.log('props', props.route.params);
-  const [product, setProduct] = useState(props.route.params);
-  const {navigate} = useNavigation();
-
-  const onChangeText = (key: string, value: string) => {
-    setProduct({...product, [key]: value});
-  };
-
-  function productUpdate(): void {
-    axiosInstance
-      .put(`products/${product.id}`, product)
-      .then(response => {
-        if (response.status === 200 && response.data) {
-          setProduct(response.data);
-          Alert.alert('Success', `Product updated! >>> ${response.data.title}`);
-          setTimeout(() => {
-            navigate('Products');
-          }, 2000);
-        }
-      })
-      .catch(error => {
-        Alert.alert('Error', 'Product could not be updated!');
-      });
-  }
+export default function ProductCreate() {
+  const {onChangeText, productCreate} = useContext(MainContext);
 
   return (
     <View style={styles.container}>
       <View style={styles.scrollViewContainer}>
         <ScrollView style={styles.scrollView}>
-          <Text style={styles.inputSubText}>Update Product Details </Text>
+          <Text style={styles.inputSubText}>Enter Product Details </Text>
           <TextInput
             placeholder="Title"
             style={styles.inputContainer}
             onChangeText={text => onChangeText('title', text)}
-            value={product?.title}
           />
           <TextInput
             placeholder="Description"
             style={styles.inputContainer}
             onChangeText={text => onChangeText('description', text)}
-            value={product?.description}
           />
           <TextInput
             placeholder="Price"
             style={styles.inputContainer}
             onChangeText={text => onChangeText('price', text)}
-            value={String(product?.price)}
           />
           <TextInput
             placeholder="DiscountPercentage"
             style={styles.inputContainer}
             onChangeText={text => onChangeText('discountPercentage', text)}
-            value={String(product?.discountPercentage)}
           />
           <TextInput
             placeholder="Stock"
             style={styles.inputContainer}
             onChangeText={text => onChangeText('stock', text)}
-            value={String(product?.stock)}
           />
           <TextInput
             placeholder="Brand"
             style={styles.inputContainer}
             onChangeText={text => onChangeText('brand', text)}
-            value={product?.brand}
           />
           <TextInput
             placeholder="Category"
             style={styles.inputContainer}
             onChangeText={text => onChangeText('category', text)}
-            value={product?.category}
           />
-          <TextInput
+          {/* <TextInput
             placeholder="Thumbnail"
             style={styles.inputContainer}
-            value={product?.thumbnail}
-          />
-          {/* <TextInput placeholder="Images" style={styles.inputContainer}  /> */}
+            value={product.thumbnail}
+          /> */}
           <TextInput
             placeholder="Rating"
             style={styles.inputContainer}
             onChangeText={text => onChangeText('rating', text)}
-            value={String(product?.rating)}
           />
         </ScrollView>
-        <TouchableOpacity onPress={() => productUpdate()}>
+        <TouchableOpacity onPress={() => productCreate()}>
           <View style={styles.button}>
             <Text style={styles.buttonText}> Add To Product List </Text>
           </View>
