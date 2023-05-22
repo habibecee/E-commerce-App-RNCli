@@ -16,6 +16,33 @@
   "profile": {
     "name": "typicode"
   },
+  "categories": [
+    {
+      "id": 1,
+      "name": "smartphones",
+      "icon": "phone-portrait-sharp"
+    },
+    {
+      "id": 2,
+      "name": "laptops",
+      "icon": "laptop-sharp"
+    },
+    {
+      "id": 3,
+      "name": "fragrances",
+      "icon": "flask-sharp"
+    },
+    {
+      "id": 4,
+      "name": "skincare",
+      "icon": "sparkles-sharp"
+    },
+    {
+      "id": 5,
+      "name": "groceries",
+      "icon": "fast-food-sharp"
+    }
+  ],
   "products": [
     {
       "id": 2,
@@ -26,7 +53,7 @@
       "rating": 4.44,
       "stock": 34,
       "brand": "Apple",
-      "category": "smartphones",
+      "categoryId": 1,
       "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/2/1.jpg",
@@ -44,11 +71,9 @@
       "rating": 4.09,
       "stock": 36,
       "brand": "Samsung",
-      "category": "smartphones",
+      "categoryId": 1,
       "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
-      "images": [
-        "https://i.dummyjson.com/data/products/3/1.jpg"
-      ]
+      "images": ["https://i.dummyjson.com/data/products/3/1.jpg"]
     },
     {
       "id": 4,
@@ -59,7 +84,7 @@
       "rating": 4.3,
       "stock": 123,
       "brand": "OPPO",
-      "category": "smartphones",
+      "categoryId": 1,
       "thumbnail": "https://i.dummyjson.com/data/products/4/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/4/1.jpg",
@@ -78,7 +103,7 @@
       "rating": 4.09,
       "stock": 32,
       "brand": "Huawei",
-      "category": "smartphones",
+      "categoryId": 1,
       "thumbnail": "https://i.dummyjson.com/data/products/5/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/5/1.jpg",
@@ -95,7 +120,7 @@
       "rating": 4.57,
       "stock": 83,
       "brand": "Apple",
-      "category": "laptops",
+      "categoryId": 2,
       "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
       "images": [
         "https://i.dummyjson.com/data/products/6/1.png",
@@ -113,7 +138,7 @@
       "rating": 4.25,
       "stock": 50,
       "brand": "Samsung",
-      "category": "laptops",
+      "categoryId": 2,
       "thumbnail": "https://i.dummyjson.com/data/products/7/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/7/1.jpg",
@@ -131,7 +156,7 @@
       "rating": 4.43,
       "stock": 68,
       "brand": "Microsoft Surface",
-      "category": "laptops",
+      "categoryId": 2,
       "thumbnail": "https://i.dummyjson.com/data/products/8/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/8/1.jpg",
@@ -150,7 +175,7 @@
       "rating": 4.54,
       "stock": 96,
       "brand": "Infinix",
-      "category": "laptops",
+      "categoryId": 2,
       "thumbnail": "https://i.dummyjson.com/data/products/9/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/9/1.jpg",
@@ -169,7 +194,7 @@
       "rating": 4.43,
       "stock": 89,
       "brand": "HP Pavilion",
-      "category": "laptops",
+      "categoryId": 2,
       "thumbnail": "https://i.dummyjson.com/data/products/10/thumbnail.jpeg",
       "images": [
         "https://i.dummyjson.com/data/products/10/1.jpg",
@@ -187,7 +212,7 @@
       "rating": 4.26,
       "stock": 65,
       "brand": "Impression of Acqua Di Gio",
-      "category": "fragrances",
+      "categoryId": 3,
       "thumbnail": "https://i.dummyjson.com/data/products/11/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/11/1.jpg",
@@ -205,7 +230,7 @@
       "rating": 4,
       "stock": 52,
       "brand": "Royal_Mirage",
-      "category": "fragrances",
+      "categoryId": 3,
       "thumbnail": "https://i.dummyjson.com/data/products/12/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/12/1.jpg",
@@ -224,7 +249,7 @@
       "rating": 4.59,
       "stock": 61,
       "brand": "Fog Scent Xpressio",
-      "category": "fragrances",
+      "categoryId": 3,
       "thumbnail": "https://i.dummyjson.com/data/products/13/thumbnail.webp",
       "images": [
         "https://i.dummyjson.com/data/products/13/1.jpg",
@@ -243,7 +268,7 @@
       "rating": 4.21,
       "stock": 114,
       "brand": "Al Munakh",
-      "category": "fragrances",
+      "categoryId": 3,
       "thumbnail": "https://i.dummyjson.com/data/products/14/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/14/1.jpg",
@@ -261,7 +286,7 @@
       "rating": 4.7,
       "stock": 105,
       "brand": "Lord - Al-Rehab",
-      "category": "fragrances",
+      "categoryId": 3,
       "thumbnail": "https://i.dummyjson.com/data/products/15/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/15/1.jpg",
@@ -280,7 +305,7 @@
       "rating": 4.83,
       "stock": 110,
       "brand": "L'Oreal Paris",
-      "category": "skincare",
+      "categoryId": 4,
       "thumbnail": "https://i.dummyjson.com/data/products/16/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/16/1.png",
@@ -299,7 +324,7 @@
       "rating": 4.52,
       "stock": 78,
       "brand": "Hemani Tea",
-      "category": "skincare",
+      "categoryId": 4,
       "thumbnail": "https://i.dummyjson.com/data/products/17/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/17/1.jpg",
@@ -317,7 +342,7 @@
       "rating": 4.56,
       "stock": 88,
       "brand": "Dermive",
-      "category": "skincare",
+      "categoryId": 4,
       "thumbnail": "https://i.dummyjson.com/data/products/18/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/18/1.jpg",
@@ -336,7 +361,7 @@
       "rating": 4.42,
       "stock": 54,
       "brand": "ROREC White Rice",
-      "category": "skincare",
+      "categoryId": 4,
       "thumbnail": "https://i.dummyjson.com/data/products/19/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/19/1.jpg",
@@ -354,7 +379,7 @@
       "rating": 4.06,
       "stock": 140,
       "brand": "Fair & Clear",
-      "category": "skincare",
+      "categoryId": 4,
       "thumbnail": "https://i.dummyjson.com/data/products/20/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/20/1.jpg",
@@ -373,7 +398,7 @@
       "rating": 4.44,
       "stock": 133,
       "brand": "Saaf & Khaas",
-      "category": "groceries",
+      "categoryId": 5,
       "thumbnail": "https://i.dummyjson.com/data/products/21/thumbnail.png",
       "images": [
         "https://i.dummyjson.com/data/products/21/1.png",
@@ -390,7 +415,7 @@
       "rating": 4.57,
       "stock": 146,
       "brand": "Bake Parlor Big",
-      "category": "groceries",
+      "categoryId": 5,
       "thumbnail": "https://i.dummyjson.com/data/products/22/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/22/1.jpg",
@@ -407,7 +432,7 @@
       "rating": 4.85,
       "stock": 26,
       "brand": "Baking Food Items",
-      "category": "groceries",
+      "categoryId": 5,
       "thumbnail": "https://i.dummyjson.com/data/products/23/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/23/1.jpg",
@@ -426,7 +451,7 @@
       "rating": 4.94,
       "stock": 113,
       "brand": "fauji",
-      "category": "groceries",
+      "categoryId": 5,
       "thumbnail": "https://i.dummyjson.com/data/products/24/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/24/1.jpg",
@@ -445,7 +470,7 @@
       "rating": 4.87,
       "stock": 47,
       "brand": "Dry Rose",
-      "category": "groceries",
+      "categoryId": 5,
       "thumbnail": "https://i.dummyjson.com/data/products/25/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/25/1.png",
@@ -464,7 +489,7 @@
       "rating": 4.08,
       "stock": 131,
       "brand": "Boho Decor",
-      "category": "home-decoration",
+      "categoryId": "home-decoration",
       "thumbnail": "https://i.dummyjson.com/data/products/26/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/26/1.jpg",
@@ -484,7 +509,7 @@
       "rating": 4.41,
       "stock": 17,
       "brand": "Flying Wooden",
-      "category": "home-decoration",
+      "categoryId": "home-decoration",
       "thumbnail": "https://i.dummyjson.com/data/products/27/thumbnail.webp",
       "images": [
         "https://i.dummyjson.com/data/products/27/1.jpg",
@@ -503,7 +528,7 @@
       "rating": 4.82,
       "stock": 54,
       "brand": "LED Lights",
-      "category": "home-decoration",
+      "categoryId": "home-decoration",
       "thumbnail": "https://i.dummyjson.com/data/products/28/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/28/1.jpg",
@@ -522,7 +547,7 @@
       "rating": 4.44,
       "stock": 7,
       "brand": "luxury palace",
-      "category": "home-decoration",
+      "categoryId": "home-decoration",
       "thumbnail": "https://i.dummyjson.com/data/products/29/thumbnail.webp",
       "images": [
         "https://i.dummyjson.com/data/products/29/1.jpg",
@@ -541,7 +566,7 @@
       "rating": 4.92,
       "stock": 54,
       "brand": "Golden",
-      "category": "home-decoration",
+      "categoryId": "home-decoration",
       "thumbnail": "https://i.dummyjson.com/data/products/30/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/30/1.jpg",
@@ -549,61 +574,61 @@
         "https://i.dummyjson.com/data/products/30/3.jpg",
         "https://i.dummyjson.com/data/products/30/thumbnail.jpg"
       ]
-    },
-    {
-      "title": "Samsung Galaxy S21 Ultra",
-      "description": "Samsung Galaxy S21 Ultra 5G 256 GB (Samsung Türkiye Garantili)",
-      "price": 16499,
-      "discountPercentage": 10,
-      "rating": 4.5,
-      "stock": 100,
-      "brand": "Samsung",
-      "category": "Telefon",
-      "thumbnail": "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-      "images": [
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg"
-      ],
-      "id": 31
-    },
-    {
-      "title": "Samsung Galaxy S21 Ultra",
-      "description": "Samsung Galaxy S21 Ultra 5G 256 GB (Samsung Türkiye Garantili)",
-      "price": 16499,
-      "discountPercentage": 10,
-      "rating": 4.5,
-      "stock": 100,
-      "brand": "Samsung",
-      "category": "Telefon",
-      "thumbnail": "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-      "images": [
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg"
-      ],
-      "id": 32
-    },
-    {
-      "title": "Samsung ",
-      "description": "Samsung Galaxy S21 Ultra 5G 256 GB (Samsung Türkiye Garantili)",
-      "price": 16499,
-      "discountPercentage": 10,
-      "rating": 4.5,
-      "stock": 100,
-      "brand": "Samsung",
-      "category": "Telefon",
-      "thumbnail": "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-      "images": [
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg",
-        "https://m.media-amazon.com/images/I/61O-QykQ7LL._AC_UY218_.jpg"
-      ],
-      "id": 33
     }
   ],
-  "carts": []
+  "carts": [
+    {
+      "id": 5,
+      "title": "Huawei P30",
+      "description": "Huawei’s re-badged P30 Pro New Edition was officially unveiled yesterday in Germany and now the device has made its way to the UK.",
+      "price": 499,
+      "discountPercentage": 10.58,
+      "rating": 4.09,
+      "stock": 32,
+      "brand": "Huawei",
+      "categoryId": 1,
+      "thumbnail": "https://i.dummyjson.com/data/products/5/thumbnail.jpg",
+      "images": [
+        "https://i.dummyjson.com/data/products/5/1.jpg",
+        "https://i.dummyjson.com/data/products/5/2.jpg",
+        "https://i.dummyjson.com/data/products/5/3.jpg"
+      ]
+    },
+    {
+      "id": 18,
+      "title": "Oil Free Moisturizer 100ml",
+      "description": "Dermive Oil Free Moisturizer with SPF 20 is specifically formulated with ceramides, hyaluronic acid & sunscreen.",
+      "price": 40,
+      "discountPercentage": 13.1,
+      "rating": 4.56,
+      "stock": 88,
+      "brand": "Dermive",
+      "categoryId": 4,
+      "thumbnail": "https://i.dummyjson.com/data/products/18/thumbnail.jpg",
+      "images": [
+        "https://i.dummyjson.com/data/products/18/1.jpg",
+        "https://i.dummyjson.com/data/products/18/2.jpg",
+        "https://i.dummyjson.com/data/products/18/3.jpg",
+        "https://i.dummyjson.com/data/products/18/4.jpg",
+        "https://i.dummyjson.com/data/products/18/thumbnail.jpg"
+      ]
+    },
+    {
+      "id": 22,
+      "title": "Elbow Macaroni - 400 gm",
+      "description": "Product details of Bake Parlor Big Elbow Macaroni - 400 gm",
+      "price": 14,
+      "discountPercentage": 15.58,
+      "rating": 4.57,
+      "stock": 146,
+      "brand": "Bake Parlor Big",
+      "categoryId": 5,
+      "thumbnail": "https://i.dummyjson.com/data/products/22/thumbnail.jpg",
+      "images": [
+        "https://i.dummyjson.com/data/products/22/1.jpg",
+        "https://i.dummyjson.com/data/products/22/2.jpg",
+        "https://i.dummyjson.com/data/products/22/3.jpg"
+      ]
+    }
+  ]
 }

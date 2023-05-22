@@ -1,13 +1,11 @@
 import {
   View,
   Text,
-  Button,
   SafeAreaView,
   StyleSheet,
   FlatList,
   Image,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import React, {useContext, useLayoutEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -15,34 +13,15 @@ import {colors, fonts} from '../Utils/GeneralStyles';
 import {MainContext} from '../Context/Context';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function Products() {
-  const {navigate, setOptions} = useNavigation();
+export default function Category({route}) {
+  const {navigate} = useNavigation();
 
-  const {products} = useContext(MainContext);
-
-  useLayoutEffect(() => {
-    setOptions({
-      headerRight: () => {
-        return (
-          <TouchableOpacity onPress={() => navigate('Cart')}>
-            <Icon name="cart-sharp" size={24} color={colors.darkGreen} />
-          </TouchableOpacity>
-        );
-      },
-      headerLeft: () => {
-        return (
-          <TouchableOpacity onPress={() => navigate('ProductCreated')}>
-            <Icon name="add-circle-sharp" size={24} color={colors.darkBlue} />
-          </TouchableOpacity>
-        );
-      },
-    });
-  }, []);
+  const {categoryItems} = useContext(MainContext);
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={products}
+        data={categoryItems}
         renderItem={item => {
           return (
             <TouchableOpacity
@@ -51,11 +30,7 @@ export default function Products() {
                 navigate('Product', {id: item.item.id});
               }}>
               <View style={styles.productContainer}>
-                <Image
-                  source={{uri: item.item.thumbnail}}
-                  style={styles.productImage}
-                />
-                <Text style={styles.productTitle}>{item.item.title}</Text>
+                <Text style={styles.productTitle}>CATEGORY</Text>
               </View>
             </TouchableOpacity>
           );

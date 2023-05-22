@@ -1,31 +1,21 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import axiosInstance from '../Utils/axios';
-import {useNavigation, useRoute} from '@react-navigation/native';
 import {Alert} from 'react-native';
 
 const MainContext = createContext();
 
 const MainContextProvider = ({children}) => {
   const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState({
-    title: '',
-    description: '',
-    price: 0,
-    discountPercentage: 0,
-    rating: 0,
-    stock: 0,
-    brand: '',
-    category: '',
-    thumbnail: 'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
-    images: [
-      'https://i.dummyjson.com/data/products/2/1.jpg',
-      'https://i.dummyjson.com/data/products/2/2.jpg',
-      'https://i.dummyjson.com/data/products/2/3.jpg',
-      'https://i.dummyjson.com/data/products/2/thumbnail.jpg',
-    ],
-  });
-
+  const [product, setProduct] = useState({});
   const [carts, setCarts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [categoryItems, setCategoryItems] = useState([]);
+
+  const fetchCategories = () => {
+    axiosInstance.get('categories').then(response => {
+      setCategories(response.data);
+    });
+  };
 
   const fetchProducts = () => {
     axiosInstance.get('products').then(response => {
@@ -48,18 +38,20 @@ const MainContextProvider = ({children}) => {
       });
   };
 
-  const addCarts = () => {
-    axiosInstance
-      .post('carts', product)
-      .then(response => {
-        if (response.status === 201 && response.data) {
-          setProduct(response.data);
-          Alert.alert('Success', 'Product added to cart');
+  const fetchCategoryItem = id => {
+    axiosInstance.get(`products`).then(response => {
+      axiosInstance.get(`categories`).then(response => {
+        const {data, status} = response;
+
+        if (status === 200) {
+          const categoryItem = data?.filter(
+            product => product.categoryId === id,
+          );
+
+          setCategoryItems(categoryItem);
         }
-      })
-      .catch(error => {
-        Alert.alert('Error', 'Product could not be added to cart');
       });
+    });
   };
 
   const onChangeText = (key, value) => {
@@ -76,6 +68,23 @@ const MainContextProvider = ({children}) => {
         Alert.alert('Success', `Product added to list! >> ${data?.title}`);
       }
     });
+  };
+
+  const addCarts = product => {
+    axiosInstance
+      .post('carts', product)
+      .then(response => {
+        const {status, data} = response;
+
+        if (status === 201 && data) {
+          setProduct(data);
+
+          Alert.alert('Success', 'Product added to cart');
+        }
+      })
+      .catch(error => {
+        Alert.alert('Error', 'Product could not be added to cart');
+      });
   };
 
   const deleteCarts = cartId => {
@@ -96,25 +105,28 @@ const MainContextProvider = ({children}) => {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
+    fetchCategoryItem();
   }, []);
 
   useEffect(() => {
     fetchProducts();
   }, [product]);
 
-  useEffect(() => {
-    fetchCart();
-  }, []);
-
   return (
     <MainContext.Provider
       value={{
         fetchProducts,
+        fetchCategories,
+        fetchCategoryItem,
         fetchCart,
+        categories,
+        categoryItems,
         carts,
         deleteCarts,
         products,
         product,
+        setProduct,
         addCarts,
         onChangeText,
         productCreate,

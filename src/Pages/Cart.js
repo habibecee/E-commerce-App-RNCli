@@ -5,18 +5,20 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import axiosInstance from '../Utils/axios';
+import React, {useContext, useEffect} from 'react';
 import {colors, fonts} from '../Utils/GeneralStyles';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {MainContext} from '../Context/Context';
 
-export default function Cart() {
-  const navigation = useNavigation();
-  const {carts, deleteCarts} = useContext(MainContext);
+export default function Cart({route}) {
+  const {navigate} = useNavigation();
+  const {carts, fetchCart, deleteCarts} = useContext(MainContext);
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
 
   const _renderCart =
     carts && carts?.length > 0 ? (
@@ -24,16 +26,16 @@ export default function Cart() {
         <View style={styles.SubContainer}>
           <Text style={styles.SubText}> YOUR CART </Text>
         </View>
-
         <FlatList
           data={carts}
           renderItem={cart => {
             return (
               <TouchableOpacity
+                key={cart.id}
                 onPress={() => {
-                  navigation.navigate('Product', {id: cart.item.id});
+                  navigate('Product', {id: cart.item.id});
                 }}>
-                <View style={styles.cartItemContainer} key={cart.item.id}>
+                <View style={styles.cartItemContainer}>
                   <Image
                     source={{uri: cart.item.thumbnail}}
                     style={styles.Image}
@@ -43,7 +45,7 @@ export default function Cart() {
                     <Text style={styles.title}>{cart.item.title} </Text>
                   </View>
                   <Text style={styles.price}>{cart.item.price}$ </Text>
-                  <TouchableOpacity onPress={() => deleteCarts(cart?.item.id)}>
+                  <TouchableOpacity onPress={() => deleteCarts(cart.item.id)}>
                     <View>
                       <Icon name="trash" size={24} color={colors.red} />
                     </View>
@@ -63,7 +65,7 @@ export default function Cart() {
     ) : (
       <View style={styles.EmptyCart}>
         <Text style={styles.EmptyText}>There is no product in your cart.</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Products')}>
+        <TouchableOpacity onPress={() => navigate('Products')}>
           <View style={styles.button}>
             <Text style={styles.buttonText}> Show Products </Text>
           </View>

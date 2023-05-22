@@ -1,24 +1,22 @@
 import {
   View,
   Text,
-  Button,
+  TouchableOpacity,
   SafeAreaView,
   StyleSheet,
   FlatList,
   Image,
-  TouchableOpacity,
-  Alert,
 } from 'react-native';
 import React, {useContext, useLayoutEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {colors, fonts} from '../Utils/GeneralStyles';
 import {MainContext} from '../Context/Context';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {colors, fonts} from '../Utils/GeneralStyles';
 
-export default function Products() {
+function Home({route}) {
   const {navigate, setOptions} = useNavigation();
 
-  const {products} = useContext(MainContext);
+  const {products, categories} = useContext(MainContext);
 
   useLayoutEffect(() => {
     setOptions({
@@ -42,25 +40,30 @@ export default function Products() {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={products}
+        contentContainerStyle={styles.flatListContainer}
+        data={categories}
         renderItem={item => {
           return (
             <TouchableOpacity
               key={item.item.id}
               onPress={() => {
-                navigate('Product', {id: item.item.id});
+                navigate('Category');
               }}>
-              <View style={styles.productContainer}>
-                <Image
-                  source={{uri: item.item.thumbnail}}
-                  style={styles.productImage}
-                />
-                <Text style={styles.productTitle}>{item.item.title}</Text>
-              </View>
+              <TouchableOpacity style={styles.productContainer}>
+                <Icon name={item.item.icon} size={28} color="purple" />
+                <Text style={styles.productTitle}>{item.item.name}</Text>
+              </TouchableOpacity>
             </TouchableOpacity>
           );
         }}
       />
+
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => navigate('Products')}>
+        <Icon name="list-circle-sharp" size={28} color="green" />
+        <Text style={styles.buttonTitle}>Show All Products</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -68,21 +71,21 @@ export default function Products() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: colors.bgLight,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
   },
-  ButtonCart: {
-    color: colors.textDark,
+
+  flatListContainer: {
+    margin: 20,
+    padding: 20,
+    gap: 30,
+    justifyContent: 'center',
   },
+
   productContainer: {
     flexDirection: 'row',
     gap: 10,
     marginVertical: 10,
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.primary,
     paddingBottom: 10,
     shadowColor: colors.dark,
     shadowOpacity: 0.5,
@@ -104,12 +107,32 @@ const styles = StyleSheet.create({
     color: colors.textDark,
   },
 
-  editIconContainer: {
-    flex: 1,
+  buttonContainer: {
+    width: 200,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: 10,
-    marginLeft: 10,
+    gap: 10,
+    marginVertical: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    backgroundColor: colors.bgLight,
+    borderWidth: 1,
+    borderColor: colors.darkGreen,
+    paddingBottom: 10,
+    shadowColor: colors.dark,
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+  },
+
+  buttonTitle: {
+    fontFamily: fonts.bold,
+    fontSize: 18,
+    color: colors.textPrimary,
   },
 });
+
+export default Home;

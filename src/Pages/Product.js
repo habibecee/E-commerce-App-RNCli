@@ -18,7 +18,7 @@ export default function Product({route}) {
   const {navigate} = useNavigation();
   const dimensions = Dimensions.get('window');
 
-  const {products} = useContext(MainContext);
+  const {products, addCarts, setProduct} = useContext(MainContext);
   const productId = route.params.id;
   const product = products?.find(product => product?.id === productId);
 
@@ -64,7 +64,7 @@ export default function Product({route}) {
             <Icon name="pencil-sharp" style={styles.buttonText} size={24} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => addCarts()}>
+        <TouchableOpacity onPress={() => addCarts(product)}>
           <View style={styles.button}>
             <Icon name="cart-sharp" style={styles.buttonText} size={24} />
           </View>
