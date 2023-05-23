@@ -13,6 +13,7 @@ export default function Products() {
 
   useLayoutEffect(() => {
     setOptions({
+      title: 'Product List',
       headerRight: () => {
         return (
           <HeaderButtons
@@ -20,6 +21,7 @@ export default function Products() {
             size={24}
             color={colors.darkGreen}
             onPress={() => navigate('Cart')}
+            style={{paddingRight: 20}}
           />
         );
       },
@@ -30,6 +32,7 @@ export default function Products() {
             size={24}
             color={colors.darkBlue}
             onPress={() => navigate('ProductCreate')}
+            style={{paddingLeft: 20}}
           />
         );
       },

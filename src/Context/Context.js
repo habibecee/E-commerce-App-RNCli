@@ -1,7 +1,6 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import axiosInstance from '../Utils/axios';
 import {Alert} from 'react-native';
-import {colors} from '../Utils/GeneralStyles';
 
 const MainContext = createContext();
 
@@ -12,25 +11,15 @@ const MainContextProvider = ({children}) => {
   const [categories, setCategories] = useState([]);
   const [categoryItem, setCategoryItem] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
-
-  const tabBarOptions = {
-    activeTintColor: colors.dark,
-    inactiveTintColor: 'gray',
-    tabStyle: {
-      height: 80,
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingBottom: 20,
-    },
-    labelStyle: {
-      fontSize: isFocused ? 20 : 18,
-    },
-  };
+  const [selectedCategoryName, setSelectedCategoryName] = useState('');
+  const [selectedValue, setSelectedValue] = useState('');
 
   const getTabIconName = routeName => {
     switch (routeName) {
-      case 'Home':
+      case 'Categories':
         return isFocused ? 'planet-sharp' : 'planet-outline';
+      case 'Products':
+        return isFocused ? 'paw-sharp' : 'paw-outline';
       case 'Account':
         return isFocused ? 'person-sharp' : 'person-outline';
       default:
@@ -70,7 +59,10 @@ const MainContextProvider = ({children}) => {
   };
 
   const onChangeText = (key, value) => {
-    setProduct({...product, [key]: value});
+    setProduct(prevProduct => ({
+      ...prevProduct,
+      [key]: value,
+    }));
   };
 
   const productCreate = () => {
@@ -146,8 +138,11 @@ const MainContextProvider = ({children}) => {
         productCreate,
         isFocused,
         handleTabPress,
-        tabBarOptions,
         getTabIconName,
+        selectedCategoryName,
+        setSelectedCategoryName,
+        selectedValue,
+        setSelectedValue,
       }}>
       {children}
     </MainContext.Provider>

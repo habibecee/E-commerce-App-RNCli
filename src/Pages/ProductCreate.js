@@ -6,12 +6,20 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+
 import React, {useContext} from 'react';
 import {colors, fonts} from '../Utils/GeneralStyles';
 import {MainContext} from '../Context/Context';
 
 export default function ProductCreate() {
-  const {onChangeText, productCreate} = useContext(MainContext);
+  const {
+    onChangeText,
+    productCreate,
+    categories,
+    selectedValue,
+    setSelectedValue,
+  } = useContext(MainContext);
 
   return (
     <View style={styles.container}>
@@ -48,16 +56,18 @@ export default function ProductCreate() {
             style={styles.inputContainer}
             onChangeText={text => onChangeText('brand', text)}
           />
-          <TextInput
-            placeholder="Category"
-            style={styles.inputContainer}
-            onChangeText={text => onChangeText('category', text)}
-          />
-          {/* <TextInput
-            placeholder="Thumbnail"
-            style={styles.inputContainer}
-            value={product.thumbnail}
-          /> */}
+          <View>
+            <Picker
+              selectedValue={selectedValue}
+              onValueChange={itemValue => setSelectedValue(itemValue)}>
+              {categories.map((item, index) => {
+                return (
+                  <Picker.Item label={item.name} value={item.id} key={index} />
+                );
+              })}
+            </Picker>
+          </View>
+
           <TextInput
             placeholder="Rating"
             style={styles.inputContainer}

@@ -1,14 +1,18 @@
-import {SafeAreaView, StyleSheet, FlatList} from 'react-native';
+import {SafeAreaView, StyleSheet, FlatList, Text} from 'react-native';
 import React, {useContext, useEffect} from 'react';
-import {colors} from '../Utils/GeneralStyles';
+import {colors, fonts} from '../Utils/GeneralStyles';
 import {MainContext} from '../Context/Context';
 import ProductItem from '../Components/ProductItem';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Category({route}) {
-  const {categoryItem, setCategoryItem, products} = useContext(MainContext);
+  const navigation = useNavigation();
+  const {categories, categoryItem, setCategoryItem, products} =
+    useContext(MainContext);
 
-  const filteredCategoryItem = () => {
-    const categoryId = route.params.id;
+  const categoryId = route.params.id;
+
+  const filteredCategoryItems = () => {
     const filteredProducts = products.filter(
       product => product.categoryId === categoryId,
     );
@@ -16,9 +20,23 @@ export default function Category({route}) {
     setCategoryItem(filteredProducts);
   };
 
+  const getCategoryName = categoryId => {
+    const selectedCategory = categories.find(
+      category => category.id === categoryId,
+    );
+    return selectedCategory ? selectedCategory.name : '';
+  };
+
+  const selectedCategoryName = getCategoryName(categoryId);
+
+  const updateNavigationTitle = () => {
+    navigation.setOptions({title: selectedCategoryName});
+  };
+
   useEffect(() => {
-    filteredCategoryItem();
-  }, []);
+    filteredCategoryItems();
+    updateNavigationTitle();
+  }, [categoryId]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,6 +68,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.light,
   },
+
+  categoryName: {
+    fontSize: 24,
+    fontFamily: fonts.bold,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+
   flatList: {
     flexGrow: 1,
   },

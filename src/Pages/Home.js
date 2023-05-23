@@ -62,12 +62,12 @@ function Home({route}) {
         }}
       />
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => navigate('Products')}>
         <Icon name="list-circle-sharp" size={28} color="green" />
         <Text style={styles.buttonTitle}>Show All Products</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </SafeAreaView>
   );
 }
@@ -90,7 +90,10 @@ const styles = StyleSheet.create({
     gap: 10,
     marginVertical: 10,
     alignItems: 'center',
-    paddingBottom: 10,
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.darkGreen,
+    backgroundColor: colors.bgLight,
     shadowColor: colors.dark,
     shadowOpacity: 0.5,
     shadowRadius: 2,

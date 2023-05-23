@@ -9,7 +9,7 @@ const ProductItem = ({item, id, thumbnail, title, brand, price}) => {
   return (
     <TouchableOpacity
       style={styles.productContainer}
-      key={id}
+      key={item.index}
       onPress={() => {
         navigate('Product', {id});
       }}>
