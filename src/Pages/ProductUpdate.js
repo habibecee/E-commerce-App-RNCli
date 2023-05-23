@@ -85,17 +85,6 @@ export default function ProductUpdate(props) {
             onChangeText={text => onChangeUpdate('brand', text)}
             defaultValue={product?.brand}
           />
-          <TextInput
-            placeholder="Category"
-            style={styles.inputContainer}
-            onChangeText={text => onChangeUpdate('category', text)}
-            defaultValue={product?.category}
-          />
-          <TextInput
-            placeholder="Thumbnail"
-            style={styles.inputContainer}
-            defaultValue={product?.thumbnail}
-          />
 
           <TextInput
             placeholder="Rating"

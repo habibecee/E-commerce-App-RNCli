@@ -9,7 +9,27 @@ const MainContextProvider = ({children}) => {
   const [product, setProduct] = useState({});
   const [carts, setCarts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [categoryItems, setCategoryItems] = useState([]);
+  const [categoryItem, setCategoryItem] = useState([]);
+  const [isFocused, setIsFocused] = useState(false);
+  const [selectedCategoryName, setSelectedCategoryName] = useState('');
+  const [selectedValue, setSelectedValue] = useState('');
+
+  const getTabIconName = routeName => {
+    switch (routeName) {
+      case 'Categories':
+        return isFocused ? 'planet-sharp' : 'planet-outline';
+      case 'Products':
+        return isFocused ? 'paw-sharp' : 'paw-outline';
+      case 'Account':
+        return isFocused ? 'person-sharp' : 'person-outline';
+      default:
+        return null;
+    }
+  };
+
+  const handleTabPress = () => {
+    setIsFocused(!isFocused);
+  };
 
   const fetchCategories = () => {
     axiosInstance.get('categories').then(response => {
@@ -38,24 +58,11 @@ const MainContextProvider = ({children}) => {
       });
   };
 
-  const fetchCategoryItem = id => {
-    axiosInstance.get(`products`).then(response => {
-      axiosInstance.get(`categories`).then(response => {
-        const {data, status} = response;
-
-        if (status === 200) {
-          const categoryItem = data?.filter(
-            product => product.categoryId === id,
-          );
-
-          setCategoryItems(categoryItem);
-        }
-      });
-    });
-  };
-
   const onChangeText = (key, value) => {
-    setProduct({...product, [key]: value});
+    setProduct(prevProduct => ({
+      ...prevProduct,
+      [key]: value,
+    }));
   };
 
   const productCreate = () => {
@@ -106,7 +113,6 @@ const MainContextProvider = ({children}) => {
   useEffect(() => {
     fetchProducts();
     fetchCategories();
-    fetchCategoryItem();
   }, []);
 
   useEffect(() => {
@@ -118,10 +124,10 @@ const MainContextProvider = ({children}) => {
       value={{
         fetchProducts,
         fetchCategories,
-        fetchCategoryItem,
         fetchCart,
         categories,
-        categoryItems,
+        categoryItem,
+        setCategoryItem,
         carts,
         deleteCarts,
         products,
@@ -130,6 +136,13 @@ const MainContextProvider = ({children}) => {
         addCarts,
         onChangeText,
         productCreate,
+        isFocused,
+        handleTabPress,
+        getTabIconName,
+        selectedCategoryName,
+        setSelectedCategoryName,
+        selectedValue,
+        setSelectedValue,
       }}>
       {children}
     </MainContext.Provider>

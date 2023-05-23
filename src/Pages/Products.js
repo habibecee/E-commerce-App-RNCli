@@ -1,19 +1,10 @@
-import {
-  View,
-  Text,
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, FlatList} from 'react-native';
 import React, {useContext, useLayoutEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {colors, fonts} from '../Utils/GeneralStyles';
+import {colors} from '../Utils/GeneralStyles';
 import {MainContext} from '../Context/Context';
-import Icon from 'react-native-vector-icons/Ionicons';
+import ProductItem from '../Components/ProductItem';
+import HeaderButtons from '../Components/HeaderButtons';
 
 export default function Products() {
   const {navigate, setOptions} = useNavigation();
@@ -22,18 +13,27 @@ export default function Products() {
 
   useLayoutEffect(() => {
     setOptions({
+      title: 'Product List',
       headerRight: () => {
         return (
-          <TouchableOpacity onPress={() => navigate('Cart')}>
-            <Icon name="cart-sharp" size={24} color={colors.darkGreen} />
-          </TouchableOpacity>
+          <HeaderButtons
+            name="cart-sharp"
+            size={24}
+            color={colors.darkGreen}
+            onPress={() => navigate('Cart')}
+            style={{paddingRight: 20}}
+          />
         );
       },
       headerLeft: () => {
         return (
-          <TouchableOpacity onPress={() => navigate('ProductCreated')}>
-            <Icon name="add-circle-sharp" size={24} color={colors.darkBlue} />
-          </TouchableOpacity>
+          <HeaderButtons
+            name="add-circle-sharp"
+            size={24}
+            color={colors.darkBlue}
+            onPress={() => navigate('ProductCreate')}
+            style={{paddingLeft: 20}}
+          />
         );
       },
     });
@@ -43,21 +43,19 @@ export default function Products() {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={products}
+        contentContainerStyle={styles.flatList}
+        numColumns={2}
+        keyExtractor={item => item.item?.id}
         renderItem={item => {
           return (
-            <TouchableOpacity
-              key={item.item.id}
-              onPress={() => {
-                navigate('Product', {id: item.item.id});
-              }}>
-              <View style={styles.productContainer}>
-                <Image
-                  source={{uri: item.item.thumbnail}}
-                  style={styles.productImage}
-                />
-                <Text style={styles.productTitle}>{item.item.title}</Text>
-              </View>
-            </TouchableOpacity>
+            <ProductItem
+              item={item}
+              id={item.item.id}
+              thumbnail={item.item.thumbnail}
+              title={item.item.title}
+              brand={item.item.brand}
+              price={item.item.price}
+            />
           );
         }}
       />
@@ -68,48 +66,13 @@ export default function Products() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.bgLight,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  },
-  ButtonCart: {
-    color: colors.textDark,
-  },
-  productContainer: {
-    flexDirection: 'row',
-    gap: 10,
-    marginVertical: 10,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.primary,
-    paddingBottom: 10,
-    shadowColor: colors.dark,
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-  },
-  productImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
   },
 
-  productTitle: {
-    fontFamily: fonts.bold,
-    fontSize: 18,
-    color: colors.textDark,
-  },
-
-  editIconContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: 10,
-    marginLeft: 10,
+  flatList: {
+    flexGrow: 1,
   },
 });

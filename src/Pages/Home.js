@@ -1,37 +1,42 @@
 import {
-  View,
   Text,
   TouchableOpacity,
   SafeAreaView,
   StyleSheet,
   FlatList,
-  Image,
 } from 'react-native';
 import React, {useContext, useLayoutEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {MainContext} from '../Context/Context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors, fonts} from '../Utils/GeneralStyles';
+import HeaderButtons from '../Components/HeaderButtons';
 
 function Home({route}) {
   const {navigate, setOptions} = useNavigation();
 
-  const {products, categories} = useContext(MainContext);
+  const {categories} = useContext(MainContext);
 
   useLayoutEffect(() => {
     setOptions({
       headerRight: () => {
         return (
-          <TouchableOpacity onPress={() => navigate('Cart')}>
-            <Icon name="cart-sharp" size={24} color={colors.darkGreen} />
-          </TouchableOpacity>
+          <HeaderButtons
+            name="cart-sharp"
+            size={24}
+            color={colors.darkGreen}
+            onPress={() => navigate('Cart')}
+          />
         );
       },
       headerLeft: () => {
         return (
-          <TouchableOpacity onPress={() => navigate('ProductCreated')}>
-            <Icon name="add-circle-sharp" size={24} color={colors.darkBlue} />
-          </TouchableOpacity>
+          <HeaderButtons
+            name="add-circle-sharp"
+            size={24}
+            color={colors.darkBlue}
+            onPress={() => navigate('ProductCreate')}
+          />
         );
       },
     });
@@ -46,24 +51,23 @@ function Home({route}) {
           return (
             <TouchableOpacity
               key={item.item.id}
+              style={styles.productContainer}
               onPress={() => {
-                navigate('Category');
+                navigate('Category', {id: item.item.id});
               }}>
-              <TouchableOpacity style={styles.productContainer}>
-                <Icon name={item.item.icon} size={28} color="purple" />
-                <Text style={styles.productTitle}>{item.item.name}</Text>
-              </TouchableOpacity>
+              <Icon name={item.item.icon} size={28} color="purple" />
+              <Text style={styles.productTitle}>{item.item.name}</Text>
             </TouchableOpacity>
           );
         }}
       />
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => navigate('Products')}>
         <Icon name="list-circle-sharp" size={28} color="green" />
         <Text style={styles.buttonTitle}>Show All Products</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </SafeAreaView>
   );
 }
@@ -86,7 +90,10 @@ const styles = StyleSheet.create({
     gap: 10,
     marginVertical: 10,
     alignItems: 'center',
-    paddingBottom: 10,
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.darkGreen,
+    backgroundColor: colors.bgLight,
     shadowColor: colors.dark,
     shadowOpacity: 0.5,
     shadowRadius: 2,
