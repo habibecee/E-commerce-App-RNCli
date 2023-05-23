@@ -9,6 +9,10 @@ import ProductUpdate from '../Pages/ProductUpdate';
 import Home from '../Pages/Home';
 import Account from '../Pages/Account';
 import Category from '../Pages/Category';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {colors} from '../Utils/GeneralStyles';
+import {useContext} from 'react';
+import {MainContext} from '../Context/Context';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +21,7 @@ const Stack = createNativeStackNavigator();
 function StackNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home Page" component={Home} />
+      <Stack.Screen name="Category List" component={Home} />
       <Stack.Screen name="Products" component={Products} />
       <Stack.Screen name="Product" component={Product} />
       <Stack.Screen name="Category" component={Category} />
@@ -29,17 +33,29 @@ function StackNavigator() {
 }
 
 function Navigation() {
+  const {isFocused, handleTabPress, tabBarOptions, getTabIconName} =
+    useContext(MainContext);
+
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
+        tabBarOptions={tabBarOptions}
+        listeners={{
+          tabPress: handleTabPress,
         }}
+        screenOptions={({route}) => ({
+          headerShown: false,
+          tabBarIcon: ({color, size}) => (
+            <Icon name={getTabIconName(route.name)} color={color} size={size} />
+          ),
+        })}
         initialRouteName="StackNavigator">
         <Tab.Screen
           name="Home"
           component={StackNavigator}
-          options={{headerShown: false}}
+          options={{
+            headerShown: false,
+          }}
         />
         <Tab.Screen name="Account" component={Account} />
       </Tab.Navigator>

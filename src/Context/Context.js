@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import axiosInstance from '../Utils/axios';
 import {Alert} from 'react-native';
+import {colors} from '../Utils/GeneralStyles';
 
 const MainContext = createContext();
 
@@ -9,7 +10,37 @@ const MainContextProvider = ({children}) => {
   const [product, setProduct] = useState({});
   const [carts, setCarts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [categoryItems, setCategoryItems] = useState([]);
+  const [categoryItem, setCategoryItem] = useState([]);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const tabBarOptions = {
+    activeTintColor: colors.dark,
+    inactiveTintColor: 'gray',
+    tabStyle: {
+      height: 80,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingBottom: 20,
+    },
+    labelStyle: {
+      fontSize: isFocused ? 20 : 18,
+    },
+  };
+
+  const getTabIconName = routeName => {
+    switch (routeName) {
+      case 'Home':
+        return isFocused ? 'planet-sharp' : 'planet-outline';
+      case 'Account':
+        return isFocused ? 'person-sharp' : 'person-outline';
+      default:
+        return null;
+    }
+  };
+
+  const handleTabPress = () => {
+    setIsFocused(!isFocused);
+  };
 
   const fetchCategories = () => {
     axiosInstance.get('categories').then(response => {
@@ -36,22 +67,6 @@ const MainContextProvider = ({children}) => {
       .catch(error => {
         console.log('error:', error);
       });
-  };
-
-  const fetchCategoryItem = id => {
-    axiosInstance.get(`products`).then(response => {
-      axiosInstance.get(`categories`).then(response => {
-        const {data, status} = response;
-
-        if (status === 200) {
-          const categoryItem = data?.filter(
-            product => product.categoryId === id,
-          );
-
-          setCategoryItems(categoryItem);
-        }
-      });
-    });
   };
 
   const onChangeText = (key, value) => {
@@ -106,7 +121,6 @@ const MainContextProvider = ({children}) => {
   useEffect(() => {
     fetchProducts();
     fetchCategories();
-    fetchCategoryItem();
   }, []);
 
   useEffect(() => {
@@ -118,10 +132,10 @@ const MainContextProvider = ({children}) => {
       value={{
         fetchProducts,
         fetchCategories,
-        fetchCategoryItem,
         fetchCart,
         categories,
-        categoryItems,
+        categoryItem,
+        setCategoryItem,
         carts,
         deleteCarts,
         products,
@@ -130,6 +144,10 @@ const MainContextProvider = ({children}) => {
         addCarts,
         onChangeText,
         productCreate,
+        isFocused,
+        handleTabPress,
+        tabBarOptions,
+        getTabIconName,
       }}>
       {children}
     </MainContext.Provider>

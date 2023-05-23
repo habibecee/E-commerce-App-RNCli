@@ -1,38 +1,42 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useContext, useLayoutEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {colors, fonts} from '../Utils/GeneralStyles';
+import {SafeAreaView, StyleSheet, FlatList} from 'react-native';
+import React, {useContext, useEffect} from 'react';
+import {colors} from '../Utils/GeneralStyles';
 import {MainContext} from '../Context/Context';
-import Icon from 'react-native-vector-icons/Ionicons';
+import ProductItem from '../Components/ProductItem';
 
 export default function Category({route}) {
-  const {navigate} = useNavigation();
+  const {categoryItem, setCategoryItem, products} = useContext(MainContext);
 
-  const {categoryItems} = useContext(MainContext);
+  const filteredCategoryItem = () => {
+    const categoryId = route.params.id;
+    const filteredProducts = products.filter(
+      product => product.categoryId === categoryId,
+    );
+
+    setCategoryItem(filteredProducts);
+  };
+
+  useEffect(() => {
+    filteredCategoryItem();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={categoryItems}
-        renderItem={item => {
+        data={categoryItem}
+        contentContainerStyle={styles.flatList}
+        numColumns={2}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({item}) => {
           return (
-            <TouchableOpacity
-              key={item.item.id}
-              onPress={() => {
-                navigate('Product', {id: item.item.id});
-              }}>
-              <View style={styles.productContainer}>
-                <Text style={styles.productTitle}>CATEGORY</Text>
-              </View>
-            </TouchableOpacity>
+            <ProductItem
+              item={item}
+              id={item.id}
+              thumbnail={item.thumbnail}
+              title={item.title}
+              brand={item.brand}
+              price={item.price}
+            />
           );
         }}
       />
@@ -44,47 +48,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: colors.bgLight,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+    backgroundColor: colors.light,
   },
-  ButtonCart: {
-    color: colors.textDark,
-  },
-  productContainer: {
-    flexDirection: 'row',
-    gap: 10,
-    marginVertical: 10,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.primary,
-    paddingBottom: 10,
-    shadowColor: colors.dark,
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-  },
-  productImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-  },
-
-  productTitle: {
-    fontFamily: fonts.bold,
-    fontSize: 18,
-    color: colors.textDark,
-  },
-
-  editIconContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: 10,
-    marginLeft: 10,
+  flatList: {
+    flexGrow: 1,
   },
 });
