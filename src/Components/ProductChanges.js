@@ -54,17 +54,27 @@ export default function ProductChanges({
                     />
                   ))}
                   <View style={styles.pickerContainer}>
-                    <Text style={styles.pickerSubText}>Choose Category</Text>
+                    <Text style={styles.pickerSubText}>
+                      Look Category Number and Write To CategoryId Section
+                    </Text>
+
                     <Picker
                       style={styles.picker}
                       itemStyle={styles.pickerText}
                       selectedValue={selectedValue}
-                      onValueChange={itemValue => setSelectedValue(itemValue)}>
+                      onValueChange={itemValue =>
+                        setSelectedValue(itemValue, () =>
+                          console.log(
+                            'itemValue',
+                            JSON.stringify(itemValue, null, 4),
+                          ),
+                        )
+                      }>
                       {categories.map((picker, index) => {
                         return (
                           <Picker.Item
-                            label={picker.name}
-                            value={picker.id}
+                            label={picker.id + ' ' + picker.name}
+                            value={categories[index].id}
                             key={index}
                           />
                         );
@@ -83,7 +93,9 @@ export default function ProductChanges({
                     />
                   ))}
                   <View style={styles.pickerContainer}>
-                    <Text style={styles.pickerSubText}>Choose Category</Text>
+                    <Text style={styles.pickerSubText}>
+                      Look Category Number and Write To CategoryId Section
+                    </Text>
                     <Picker
                       style={styles.picker}
                       itemStyle={styles.pickerText}
@@ -92,7 +104,7 @@ export default function ProductChanges({
                       {categories.map((picker, index) => {
                         return (
                           <Picker.Item
-                            label={picker.name}
+                            label={picker.id + ' ' + picker.name}
                             value={picker.id}
                             key={index}
                           />
@@ -107,16 +119,14 @@ export default function ProductChanges({
         }}
       />
       {String(onChange) === 'ProductUpdate' ? (
-        <TouchableOpacity onPress={() => productUpdateFunc()}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}> {productButton} </Text>
-          </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => productUpdateFunc()}>
+          <Text style={styles.buttonText}> {productButton} </Text>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity onPress={() => productCreate()}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}> {productButton} </Text>
-          </View>
+        <TouchableOpacity style={styles.button} onPress={() => productCreate()}>
+          <Text style={styles.buttonText}> {productButton} </Text>
         </TouchableOpacity>
       )}
     </View>
@@ -145,7 +155,6 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     width: '100%',
-    height: '100%',
     paddingVertical: 35,
     paddingHorizontal: 10,
     backgroundColor: colors.tertiary,
@@ -167,19 +176,21 @@ const styles = StyleSheet.create({
   pickerContainer: {
     flex: 1,
     paddingBottom: 30,
+    textAlign: 'center',
   },
 
   pickerSubText: {
+    width: '50%',
+    textAlign: 'center',
     fontFamily: fonts.semiBold,
     fontSize: 20,
     color: colors.dark,
-    alignSelf: 'flex-start',
-    marginBottom: 30,
+    alignSelf: 'center',
   },
 
   picker: {
     width: '70%',
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     justifyContent: 'center',
   },
 
@@ -190,6 +201,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
+    zIndex: 999,
     width: '100%',
     height: 50,
     backgroundColor: colors.bgLight,
