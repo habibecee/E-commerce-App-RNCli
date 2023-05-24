@@ -13,7 +13,19 @@ const MainContextProvider = ({children}) => {
   const [categoryItem, setCategoryItem] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedCategoryName, setSelectedCategoryName] = useState('');
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState(product.categoryId);
+
+  const placeholder = {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    price: 'price',
+    discountPercentage: 'discountPercentage',
+    stock: 'stock',
+    brand: 'brand',
+    rating: 'rating',
+    categoryId: categories.name,
+  };
 
   const getTabIconName = routeName => {
     switch (routeName) {
@@ -162,6 +174,7 @@ const MainContextProvider = ({children}) => {
         setSelectedCategoryName,
         selectedValue,
         setSelectedValue,
+        placeholder,
       }}>
       {children}
     </MainContext.Provider>
