@@ -22,10 +22,10 @@ function Home({route}) {
       headerRight: () => {
         return (
           <HeaderButtons
-            name="cart-sharp"
+            name="heart-sharp"
             size={24}
-            color={colors.darkGreen}
-            onPress={() => navigate('Cart')}
+            color={colors.red}
+            onPress={() => navigate('Favorite')}
           />
         );
       },

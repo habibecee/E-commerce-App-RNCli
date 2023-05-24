@@ -26,7 +26,7 @@ const ProductItem = ({item, id, thumbnail, title, brand, price}) => {
 const styles = StyleSheet.create({
   productContainer: {
     flex: 1,
-    width: 200,
+    maxWidth: 200,
     height: 350,
     alignItems: 'center',
     borderWidth: 1,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
 
   productImageContainer: {
-    width: 195,
+    width: 200,
     height: 200,
   },
   productImage: {

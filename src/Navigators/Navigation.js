@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Products from '../Pages/Products';
 import Product from '../Pages/Product';
-import Cart from '../Pages/Cart';
+import Favorite from '../Pages/Favorite';
 import ProductCreate from '../Pages/ProductCreate';
 import ProductUpdate from '../Pages/ProductUpdate';
 import Home from '../Pages/Home';
@@ -47,7 +47,7 @@ function StackNavigator({route}) {
       />
       <Stack.Screen name="Product" component={Product} />
       <Stack.Screen name="Category" component={Category} />
-      <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="Favorite" component={Favorite} />
       <Stack.Screen name="ProductCreate" component={ProductCreate} />
       <Stack.Screen name="ProductUpdate" component={ProductUpdate} />
     </Stack.Navigator>

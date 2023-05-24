@@ -12,40 +12,41 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {MainContext} from '../Context/Context';
 
-export default function Cart({route}) {
+export default function Favorite({route}) {
   const {navigate} = useNavigation();
-  const {carts, fetchCart, deleteCarts} = useContext(MainContext);
+  const {Favorites, fetchFavorites, deleteFavorites} = useContext(MainContext);
 
   useEffect(() => {
-    fetchCart();
+    fetchFavorites();
   }, []);
 
-  const _renderCart =
-    carts && carts?.length > 0 ? (
+  const _renderFavorite =
+    Favorites && Favorites?.length > 0 ? (
       <>
         <View style={styles.SubContainer}>
-          <Text style={styles.SubText}> YOUR CART </Text>
+          <Text style={styles.SubText}> YOUR Favorite </Text>
         </View>
         <FlatList
-          data={carts}
-          renderItem={cart => {
+          data={Favorites}
+          renderItem={Favorite => {
             return (
               <TouchableOpacity
-                key={cart.id}
+                key={Favorite.item.id}
                 onPress={() => {
-                  navigate('Product', {id: cart.item.id});
+                  navigate('Product', {id: Favorite.item.id});
                 }}>
-                <View style={styles.cartItemContainer}>
+                <View style={styles.FavoriteItemContainer}>
                   <Image
-                    source={{uri: cart.item.thumbnail}}
+                    source={{uri: Favorite.item.thumbnail}}
                     style={styles.Image}
                   />
-                  <View style={styles.cartTitleContainer}>
-                    <Text style={styles.brand}>{cart.item.brand} </Text>
-                    <Text style={styles.title}>{cart.item.title} </Text>
+                  <View style={styles.FavoriteTitleContainer}>
+                    <Text style={styles.brand}>{Favorite.item.brand} </Text>
+                    <Text style={styles.title}>{Favorite.item.title} </Text>
                   </View>
-                  <Text style={styles.price}>{cart.item.price}$ </Text>
-                  <TouchableOpacity onPress={() => deleteCarts(cart.item.id)}>
+                  <Text style={styles.price}>{Favorite.item.price}$ </Text>
+                  <TouchableOpacity
+                    onPress={() => deleteFavorites(Favorite.item.id)}>
                     <View>
                       <Icon name="trash" size={24} color={colors.red} />
                     </View>
@@ -63,8 +64,10 @@ export default function Cart({route}) {
         </TouchableOpacity>
       </>
     ) : (
-      <View style={styles.EmptyCart}>
-        <Text style={styles.EmptyText}>There is no product in your cart.</Text>
+      <View style={styles.EmptyFavorite}>
+        <Text style={styles.EmptyText}>
+          There is no product in your Favorite.
+        </Text>
         <TouchableOpacity onPress={() => navigate('Products')}>
           <View style={styles.button}>
             <Text style={styles.buttonText}> Show Products </Text>
@@ -73,7 +76,7 @@ export default function Cart({route}) {
       </View>
     );
 
-  return <View style={styles.ScrollView}>{_renderCart}</View>;
+  return <View style={styles.ScrollView}>{_renderFavorite}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -106,7 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bgLight,
     padding: 10,
   },
-  cartItemContainer: {
+  FavoriteItemContainer: {
     flexDirection: 'row',
     gap: 15,
     marginVertical: 10,
@@ -125,7 +128,7 @@ const styles = StyleSheet.create({
     },
   },
 
-  cartTitleContainer: {
+  FavoriteTitleContainer: {
     flex: 1,
     width: '100%',
     gap: 5,
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
     },
   },
 
-  EmptyCart: {
+  EmptyFavorite: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
