@@ -588,7 +588,6 @@
     },
     {
       "id": 30,
-      "isFavorite": false,
       "title": "Key Holder",
       "description": "Attractive DesignMetallic materialFour key hooksReliable & DurablePremium Quality",
       "price": 30,
@@ -607,7 +606,6 @@
     },
     {
       "id": 31,
-      "isFavorite": false,
       "title": "Handmade Wooden Wall Clock",
       "description": "Handmade Wooden Wall Clock 12 Inch Round Wall Clock for Home Decor",
       "price": 50,

@@ -8,7 +8,7 @@ const MainContextProvider = ({children}) => {
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState({
     id: Number,
-    isFavorite: false,
+    isFavorite: Boolean,
     title: String,
     description: String,
     price: Number,
@@ -27,9 +27,6 @@ const MainContextProvider = ({children}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [selectedCategoryName, setSelectedCategoryName] = useState('');
   const [selectedValue, setSelectedValue] = useState(product.categoryId);
-
-  const productId = product.id;
-  const isFavorite = addProductFav[productId];
 
   const placeholder = {
     title: product.title,
@@ -98,8 +95,9 @@ const MainContextProvider = ({children}) => {
     axiosInstance.post('products', product).then(response => {
       const {data, status} = response;
 
+      const isFavorite = false;
+
       if (status === 201 && data) {
-        data.push(isFavorite);
         Alert.alert('Success', `Product added to list! >> ${data?.title}`);
         setProduct(data);
       }
@@ -107,6 +105,9 @@ const MainContextProvider = ({children}) => {
   };
 
   const addFavorites = product => {
+    const productId = product.id;
+    const isFavorite = addProductFav[productId];
+
     if (!isFavorite) {
       axiosInstance
         .post('Favorites', product)
