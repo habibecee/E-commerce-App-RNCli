@@ -16,18 +16,21 @@ import Icon from 'react-native-vector-icons/Ionicons';
 export default function ProductUpdate(props) {
   const {fetchProducts} = useContext(MainContext);
   const {navigate} = useNavigation();
-  const [product, setProduct] = useState(props.route.params);
+  const [productUpdateState, setProductUpdateState] = useState(
+    props.route.params,
+  );
 
   const onChangeUpdate = (key, value) => {
-    setProduct({...product, [key]: value});
+    setProductUpdateState({...productUpdateState, [key]: value});
   };
 
   function productUpdate() {
     axiosInstance
-      .put(`products/${product.id}`, product)
+      .put(`products/${productUpdateState.id}`, productUpdateState)
       .then(response => {
         if (response.status === 200 && response.data) {
-          setProduct(response.data);
+          setProductUpdateState(response.data);
+          fetchProducts();
           Alert.alert('Success', `Product updated! >>> ${response.data.title}`);
         }
 
@@ -47,15 +50,15 @@ export default function ProductUpdate(props) {
         onChange={'ProductUpdate'}
         onChangeUpdate={onChangeUpdate}
         defaultValue={[
-          product.title,
-          product.brand,
-          product.description,
-          product.price,
-          product.discountPercentage,
-          product.rating,
-          product.stock,
-          product.thumbnail,
-          product.images,
+          productUpdateState.title,
+          productUpdateState.brand,
+          productUpdateState.description,
+          productUpdateState.price,
+          productUpdateState.discountPercentage,
+          productUpdateState.rating,
+          productUpdateState.stock,
+          productUpdateState.thumbnail,
+          productUpdateState.images,
         ]}
         productButton={' Update Product '}
       />

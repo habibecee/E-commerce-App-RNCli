@@ -58,7 +58,7 @@
       "rating": 4.69,
       "stock": 94,
       "brand": "Apple",
-      "categoryId": 1,
+      "categoryId": 3,
       "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/1/1.jpg",

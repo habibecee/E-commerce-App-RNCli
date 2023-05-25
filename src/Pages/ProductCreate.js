@@ -3,7 +3,6 @@ import React, {useContext} from 'react';
 import {MainContext} from '../Context/Context';
 import ProductChanges from '../Components/ProductChanges';
 import {useNavigation} from '@react-navigation/native';
-import {colors, fonts} from '../Utils/GeneralStyles';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function ProductCreate() {
