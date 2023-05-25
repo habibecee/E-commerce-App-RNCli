@@ -6,7 +6,20 @@ const MainContext = createContext();
 
 const MainContextProvider = ({children}) => {
   const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({
+    id: Number,
+    isFavorite: false,
+    title: String,
+    description: String,
+    price: Number,
+    discountPercentage: Number,
+    rating: Number,
+    stock: Number,
+    brand: String,
+    categoryId: Number,
+    thumbnail: String,
+    images: Array,
+  });
   const [addProductFav, setAddProductFav] = useState({});
   const [Favorites, setFavorites] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -15,16 +28,18 @@ const MainContextProvider = ({children}) => {
   const [selectedCategoryName, setSelectedCategoryName] = useState('');
   const [selectedValue, setSelectedValue] = useState(product.categoryId);
 
+  const productId = product.id;
+  const isFavorite = addProductFav[productId];
+
   const placeholder = {
-    title: 'title',
-    brand: 'brand',
-    description: 'description',
-    price: 'price',
-    discountPercentage: 'discountPercentage',
-    stock: 'stock',
-    rating: 'rating',
-    thumbnail: {},
-    images: [{}],
+    title: product.title,
+    description: product.description,
+    price: product.price,
+    discountPercentage: product.discountPercentage,
+    rating: product.rating,
+    stock: product.stock,
+    brand: product.brand,
+    thumbnail: product.thumbnail,
   };
 
   const getTabIconName = routeName => {
@@ -84,6 +99,7 @@ const MainContextProvider = ({children}) => {
       const {data, status} = response;
 
       if (status === 201 && data) {
+        data.push(isFavorite);
         Alert.alert('Success', `Product added to list! >> ${data?.title}`);
         setProduct(data);
       }
@@ -91,9 +107,6 @@ const MainContextProvider = ({children}) => {
   };
 
   const addFavorites = product => {
-    const productId = product.id;
-    const isFavorite = addProductFav[productId];
-
     if (!isFavorite) {
       axiosInstance
         .post('Favorites', product)
