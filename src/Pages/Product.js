@@ -18,7 +18,8 @@ export default function Product({route}) {
   const {navigate} = useNavigation();
   const dimensions = Dimensions.get('window');
 
-  const {products, addCarts, setProduct} = useContext(MainContext);
+  const {products, addFavorites, setProduct, addProductFav} =
+    useContext(MainContext);
   const productId = route.params.id;
   const product = products?.find(product => product?.id === productId);
 
@@ -37,14 +38,14 @@ export default function Product({route}) {
       <FlatList
         key={product?.id}
         data={product?.images}
+        style={styles.ThumbnailList}
         renderItem={_renderItem}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
       />
-
-      <View style={styles.DescriptionContainer}>
-        <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.BrandContainer}>
           <Text style={styles.brand}> {product?.brand} </Text>
           <Text style={styles.title}> {product?.title} </Text>
           <Text style={styles.price}>
@@ -55,18 +56,26 @@ export default function Product({route}) {
               %{product?.discountPercentage}{' '}
             </Text>{' '}
           </Text>
+        </View>
+
+        <View style={styles.DescriptionContainer}>
+          <Text style={styles.descriptionText}> DESCRIPTION </Text>
           <Text style={styles.description}> {product?.description} </Text>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={() => navigate('ProductUpdate', product)}>
           <View style={styles.button}>
-            <Icon name="pencil-sharp" style={styles.buttonText} size={24} />
+            <Icon name="pencil-sharp" size={24} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => addCarts(product)}>
+        <TouchableOpacity onPress={() => addFavorites(product)}>
           <View style={styles.button}>
-            <Icon name="cart-sharp" style={styles.buttonText} size={24} />
+            <Icon
+              name={addProductFav[product.id] ? 'heart-sharp' : 'heart-outline'}
+              size={24}
+              color={addProductFav[product.id] ? colors.red : colors.dark}
+            />
           </View>
         </TouchableOpacity>
       </View>
@@ -77,16 +86,22 @@ export default function Product({route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 10,
     alignItems: 'center',
-    backgroundColor: colors.bgLight,
-    padding: 5,
+    backgroundColor: colors.tertiary,
   },
+
+  ThumbnailList: {
+    width: Dimensions.get('window').width,
+    height: 250,
+    marginBottom: 10,
+  },
+
   ThumbnailContainer: {
     width: Dimensions.get('window').width,
     height: 200,
+    backgroundColor: colors.bgLight,
     shadowColor: colors.dark,
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.5,
     shadowRadius: 5,
     shadowOffset: {
       width: 0,
@@ -94,21 +109,56 @@ const styles = StyleSheet.create({
     },
   },
   Thumbnail: {
-    width: Dimensions.get('window').width,
+    width: '100%',
     height: 200,
+  },
+
+  scrollView: {
+    backgroundColor: colors.tertiary,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+
+  BrandContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 20,
+    width: '100%',
+    minHeight: 50,
+    marginBottom: 15,
+    backgroundColor: colors.bgLight,
+    borderWidth: 1,
+    borderColor: colors.tertiary,
+    backgroundColor: colors.bgLight,
+    shadowColor: colors.dark,
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
   },
 
   DescriptionContainer: {
     flex: 1,
-    backgroundColor: colors.bgLight,
-    margin: 15,
-    minHeight: 200,
-  },
-
-  scrollView: {
-    backgroundColor: colors.bgLight,
     gap: 10,
-    padding: 5,
+    width: '100%',
+    height: 400,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: 10,
+    minHeight: 200,
+    borderWidth: 1,
+    borderColor: colors.tertiary,
+    backgroundColor: colors.bgLight,
+    shadowColor: colors.dark,
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
   },
 
   Image: {
@@ -137,6 +187,14 @@ const styles = StyleSheet.create({
     // textDecorationLine: 'line-through',
     color: colors.textLight,
   },
+
+  descriptionText: {
+    fontFamily: fonts.bold,
+    fontSize: 22,
+    textDecorationLine: 'underline',
+    color: colors.textPrimary,
+  },
+
   description: {
     fontFamily: fonts.semiBold,
     fontSize: 20,
@@ -145,15 +203,13 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     position: 'absolute',
-    bottom: 0,
-    flexDirection: 'row',
+    top: 0,
+    right: 0,
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%',
-    height: 100,
-    backgroundColor: colors.bgLight,
-    paddingVertical: 5,
-    paddingHorizontal: 5,
+    backgroundColor: 'transparent',
+    margin: 10,
+    zIndex: 999,
   },
 
   button: {
@@ -173,10 +229,5 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-  },
-  buttonText: {
-    fontFamily: fonts.semiBold,
-    fontSize: 20,
-    color: colors.textDark,
   },
 });

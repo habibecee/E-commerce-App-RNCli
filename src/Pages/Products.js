@@ -17,10 +17,10 @@ export default function Products() {
       headerRight: () => {
         return (
           <HeaderButtons
-            name="cart-sharp"
+            name="heart-sharp"
             size={24}
-            color={colors.darkGreen}
-            onPress={() => navigate('Cart')}
+            color={colors.red}
+            onPress={() => navigate('Favorite')}
             style={{paddingRight: 20}}
           />
         );
@@ -45,7 +45,7 @@ export default function Products() {
         data={products}
         contentContainerStyle={styles.flatList}
         numColumns={2}
-        keyExtractor={item => item.item?.id}
+        keyExtractor={(item, index) => item.id.toString()}
         renderItem={item => {
           return (
             <ProductItem

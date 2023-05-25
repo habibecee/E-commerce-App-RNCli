@@ -26,7 +26,7 @@ const ProductItem = ({item, id, thumbnail, title, brand, price}) => {
 const styles = StyleSheet.create({
   productContainer: {
     flex: 1,
-    width: 200,
+    maxWidth: 200,
     height: 350,
     alignItems: 'center',
     borderWidth: 1,
@@ -47,11 +47,13 @@ const styles = StyleSheet.create({
   productImageContainer: {
     width: 195,
     height: 200,
+    alignItems: 'center',
   },
   productImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 
   productTitle: {
@@ -67,9 +69,9 @@ const styles = StyleSheet.create({
   },
 
   productPrice: {
-    fontFamily: fonts.regular,
-    fontSize: 16,
-    color: colors.textSecondary,
+    fontFamily: fonts.bold,
+    fontSize: 20,
+    color: colors.red,
   },
 });
 

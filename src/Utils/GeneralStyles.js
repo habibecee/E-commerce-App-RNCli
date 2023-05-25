@@ -4,6 +4,7 @@ export const colors = {
   tertiary: '#DBDFEA',
   light: '#F6F1F1',
   dark: '#654E92',
+  red: '#B70404',
 
   bgLight: '#FDF4F5',
   bgGreen: '#F6FFDE',
@@ -15,13 +16,15 @@ export const colors = {
   textLight: '#635985',
   textPrimary: '#393053',
   textSecondary: '#443C68',
+  textPrice: '#FF5403',
 
-  red: '#FF6969',
+  red: '#F90716',
+  // FF6969
 };
 
 export const fonts = {
-  regular: 'Caveat-Regular',
-  medium: 'Caveat-Medium',
-  semiBold: 'Caveat-SemiBold',
-  bold: 'Caveat-Bold',
+  regular: 'Poppins-Regular',
+  medium: 'Poppins-Medium',
+  semiBold: 'Poppins-Bold',
+  bold: 'Poppins-ExtraBold',
 };

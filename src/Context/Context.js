@@ -6,13 +6,38 @@ const MainContext = createContext();
 
 const MainContextProvider = ({children}) => {
   const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState({});
-  const [carts, setCarts] = useState([]);
+  const [product, setProduct] = useState({
+    id: Number,
+    isFavorite: Boolean,
+    title: String,
+    description: String,
+    price: Number,
+    discountPercentage: Number,
+    rating: Number,
+    stock: Number,
+    brand: String,
+    categoryId: Number,
+    thumbnail: String,
+    images: Array,
+  });
+  const [addProductFav, setAddProductFav] = useState({});
+  const [Favorites, setFavorites] = useState([]);
   const [categories, setCategories] = useState([]);
   const [categoryItem, setCategoryItem] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedCategoryName, setSelectedCategoryName] = useState('');
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState(product.categoryId);
+
+  const placeholder = {
+    title: product.title,
+    description: product.description,
+    price: product.price,
+    discountPercentage: product.discountPercentage,
+    rating: product.rating,
+    stock: product.stock,
+    brand: product.brand,
+    thumbnail: product.thumbnail,
+  };
 
   const getTabIconName = routeName => {
     switch (routeName) {
@@ -40,17 +65,18 @@ const MainContextProvider = ({children}) => {
   const fetchProducts = () => {
     axiosInstance.get('products').then(response => {
       setProducts(response.data);
+      setAddProductFav(false);
     });
   };
 
-  const fetchCart = () => {
+  const fetchFavorites = () => {
     axiosInstance
-      .get('carts')
+      .get('favorites')
       .then(response => {
         const {status, data} = response;
 
         if (status === 200) {
-          setCarts(data);
+          setFavorites(data);
         }
       })
       .catch(error => {
@@ -69,40 +95,57 @@ const MainContextProvider = ({children}) => {
     axiosInstance.post('products', product).then(response => {
       const {data, status} = response;
 
-      if (status === 201 && data) {
-        setProduct(data);
+      const isFavorite = false;
 
+      if (status === 201 && data) {
         Alert.alert('Success', `Product added to list! >> ${data?.title}`);
+        setProduct(data);
       }
     });
   };
 
-  const addCarts = product => {
-    axiosInstance
-      .post('carts', product)
-      .then(response => {
-        const {status, data} = response;
+  const addFavorites = product => {
+    const productId = product.id;
+    const isFavorite = addProductFav[productId];
 
-        if (status === 201 && data) {
-          setProduct(data);
+    if (!isFavorite) {
+      axiosInstance
+        .post('Favorites', product)
+        .then(response => {
+          const {status, data} = response;
 
-          Alert.alert('Success', 'Product added to cart');
-        }
-      })
-      .catch(error => {
-        Alert.alert('Error', 'Product could not be added to cart');
-      });
+          if (status === 201) {
+            Alert.alert('Success', 'Item Added To The Favorites List!');
+            setAddProductFav(prevState => ({
+              ...prevState,
+              [productId]: true,
+            }));
+            fetchFavorites();
+          }
+        })
+        .catch(error => {
+          Alert.alert('Error', 'Product not found!');
+        });
+    } else {
+      deleteFavorites(product.id);
+      Alert.alert('Success', 'Item Deleted From The Favorites List!');
+      fetchFavorites();
+    }
   };
 
-  const deleteCarts = cartId => {
+  const deleteFavorites = FavoriteId => {
     axiosInstance
-      .delete(`carts/${cartId}`)
+      .delete(`favorites/${FavoriteId}`)
       .then(response => {
         const {status} = response;
 
         if (status === 200) {
-          Alert.alert('Success', 'Item Deleted From The Cart!');
-          fetchCart();
+          Alert.alert('Success', 'Item Deleted From The Favorites List!');
+          setAddProductFav(prevState => ({
+            ...prevState,
+            [FavoriteId]: false,
+          }));
+          fetchFavorites();
         }
       })
       .catch(error => {
@@ -119,21 +162,26 @@ const MainContextProvider = ({children}) => {
     fetchProducts();
   }, [product]);
 
+  // useEffect(() => {
+  //   setSelectedValue(product.categoryId);
+  // }, [product]);
+
   return (
     <MainContext.Provider
       value={{
         fetchProducts,
         fetchCategories,
-        fetchCart,
+        fetchFavorites,
         categories,
         categoryItem,
         setCategoryItem,
-        carts,
-        deleteCarts,
+        Favorites,
+        deleteFavorites,
+        addProductFav,
         products,
         product,
         setProduct,
-        addCarts,
+        addFavorites,
         onChangeText,
         productCreate,
         isFocused,
@@ -143,6 +191,7 @@ const MainContextProvider = ({children}) => {
         setSelectedCategoryName,
         selectedValue,
         setSelectedValue,
+        placeholder,
       }}>
       {children}
     </MainContext.Provider>
