@@ -45,13 +45,15 @@ const styles = StyleSheet.create({
   },
 
   productImageContainer: {
-    width: 200,
+    width: 195,
     height: 200,
+    alignItems: 'center',
   },
   productImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 
   productTitle: {
@@ -67,9 +69,9 @@ const styles = StyleSheet.create({
   },
 
   productPrice: {
-    fontFamily: fonts.regular,
-    fontSize: 16,
-    color: colors.textSecondary,
+    fontFamily: fonts.bold,
+    fontSize: 20,
+    color: colors.red,
   },
 });
 

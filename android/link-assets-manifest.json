@@ -2,20 +2,20 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "assets/fonts/Caveat-Bold.ttf",
-      "sha1": "7950598cf176a011d6393d74b8b3a9b0cbe8b4bb"
+      "path": "assets/fonts/Poppins-Bold.ttf",
+      "sha1": "3bc8164396c3e6c1e4fae0cf2a51ea66381c1c2d"
     },
     {
-      "path": "assets/fonts/Caveat-Medium.ttf",
-      "sha1": "c9bd952b5223789f0dea78ca654ac857bd625462"
+      "path": "assets/fonts/Poppins-ExtraBold.ttf",
+      "sha1": "6f007dac8dacf714ddcfaa3132a887e6a71cf792"
     },
     {
-      "path": "assets/fonts/Caveat-Regular.ttf",
-      "sha1": "eb7e3af340eec2ba319826d85c34f516bcd77f43"
+      "path": "assets/fonts/Poppins-Medium.ttf",
+      "sha1": "cf83e7582e60ed83f67c7d68b4f7482ac9fc6958"
     },
     {
-      "path": "assets/fonts/Caveat-SemiBold.ttf",
-      "sha1": "9e1003daff733d96fef7aef789ae5498f461da85"
+      "path": "assets/fonts/Poppins-Regular.ttf",
+      "sha1": "52f9413b264e8ecefbbf12830e3dfadebbf72986"
     }
   ]
 }

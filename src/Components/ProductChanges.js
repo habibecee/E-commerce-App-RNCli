@@ -10,23 +10,26 @@ import React, {useContext} from 'react';
 import {MainContext} from '../Context/Context';
 import {Picker} from '@react-native-picker/picker';
 import {colors, fonts} from '../Utils/GeneralStyles';
+import {useNavigation} from '@react-navigation/native';
 
 export default function ProductChanges({
   onChange,
   defaultValue,
   productButton,
   productUpdateFunc,
+  onChangeUpdate,
 }) {
   const {
     categories,
     setSelectedValue,
-    onChangeUpdate,
     onChangeText,
     productCreate,
     selectedValue,
   } = useContext(MainContext);
 
-  console.log('defaultValue', JSON.stringify(defaultValue, null, 4));
+  const {navigate} = useNavigation();
+
+  // console.log('defaultValue', JSON.stringify(defaultValue, null, 4));
 
   return (
     <View style={styles.container}>
@@ -43,37 +46,26 @@ export default function ProductChanges({
                       key={key}
                       style={styles.inputContainer}
                       placeholder={key}
-                      onChangeText={text => {
-                        if (String(onChange) === 'ProductUpdate') {
-                          onChangeUpdate(key, text);
-                        } else {
-                          onChangeText(key, text);
-                        }
-                      }}
-                      defaultValue={String(value)}
+                      onChangeText={text => onChangeUpdate(key, text)}
+                      value={String(item[key])}
                     />
                   ))}
                   <View style={styles.pickerContainer}>
-                    <Text style={styles.pickerSubText}>
-                      Look Category Number and Write To CategoryId Section
-                    </Text>
+                    <Text style={styles.pickerSubText}>Choose Category</Text>
 
                     <Picker
                       style={styles.picker}
                       itemStyle={styles.pickerText}
                       selectedValue={selectedValue}
-                      onValueChange={itemValue =>
-                        setSelectedValue(itemValue, () =>
-                          console.log(
-                            'itemValue',
-                            JSON.stringify(itemValue, null, 4),
-                          ),
-                        )
-                      }>
+                      onValueChange={itemValue => {
+                        setSelectedValue(itemValue);
+                        onChangeUpdate('categoryId', itemValue);
+                        productUpdateFunc;
+                      }}>
                       {categories.map((picker, index) => {
                         return (
                           <Picker.Item
-                            label={picker.id + ' ' + picker.name}
+                            label={picker.name}
                             value={categories[index].id}
                             key={index}
                           />
@@ -89,22 +81,23 @@ export default function ProductChanges({
                       key={key}
                       placeholder={key}
                       style={styles.inputContainer}
-                      onChangeText={text => onChangeText(String(item), text)}
+                      onChangeText={text => onChangeText(key, text)}
                     />
                   ))}
                   <View style={styles.pickerContainer}>
-                    <Text style={styles.pickerSubText}>
-                      Look Category Number and Write To CategoryId Section
-                    </Text>
+                    <Text style={styles.pickerSubText}>Choose Category</Text>
                     <Picker
                       style={styles.picker}
                       itemStyle={styles.pickerText}
                       selectedValue={selectedValue}
-                      onValueChange={itemValue => setSelectedValue(itemValue)}>
+                      onValueChange={itemValue => {
+                        setSelectedValue(itemValue);
+                        onChangeText('categoryId', itemValue);
+                      }}>
                       {categories.map((picker, index) => {
                         return (
                           <Picker.Item
-                            label={picker.id + ' ' + picker.name}
+                            label={picker.name}
                             value={picker.id}
                             key={index}
                           />
@@ -122,11 +115,18 @@ export default function ProductChanges({
         <TouchableOpacity
           style={styles.button}
           onPress={() => productUpdateFunc()}>
-          <Text style={styles.buttonText}> {productButton} </Text>
+          <Text style={styles.buttonText}> Update Product </Text>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={styles.button} onPress={() => productCreate()}>
-          <Text style={styles.buttonText}> {productButton} </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => (
+            productCreate(),
+            setTimeout(() => {
+              navigate('Products');
+            }, 1000)
+          )}>
+          <Text style={styles.buttonText}> Create New Product </Text>
         </TouchableOpacity>
       )}
     </View>
@@ -201,9 +201,10 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    zIndex: 999,
+    // position: 'relative',
+    flex: 1,
     width: '100%',
-    height: 50,
+    maxHeight: 50,
     backgroundColor: colors.bgLight,
     justifyContent: 'center',
     alignItems: 'center',

@@ -16,15 +16,15 @@ const MainContextProvider = ({children}) => {
   const [selectedValue, setSelectedValue] = useState(product.categoryId);
 
   const placeholder = {
-    id: 'id',
     title: 'title',
+    brand: 'brand',
     description: 'description',
     price: 'price',
     discountPercentage: 'discountPercentage',
     stock: 'stock',
-    brand: 'brand',
     rating: 'rating',
-    categoryId: categories.name,
+    thumbnail: {},
+    images: [{}],
   };
 
   const getTabIconName = routeName => {
@@ -84,9 +84,8 @@ const MainContextProvider = ({children}) => {
       const {data, status} = response;
 
       if (status === 201 && data) {
-        setProduct(data);
-
         Alert.alert('Success', `Product added to list! >> ${data?.title}`);
+        setProduct(data);
       }
     });
   };
@@ -148,6 +147,10 @@ const MainContextProvider = ({children}) => {
   useEffect(() => {
     fetchProducts();
   }, [product]);
+
+  // useEffect(() => {
+  //   setSelectedValue(product.categoryId);
+  // }, [product]);
 
   return (
     <MainContext.Provider

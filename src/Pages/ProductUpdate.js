@@ -32,16 +32,23 @@ export default function ProductUpdate(props) {
       });
   }
 
-  useEffect(() => {
-    fetchProducts();
-  }, [product]);
-
   return (
     <SafeAreaView>
       <ProductChanges
         productUpdateFunc={productUpdate}
         onChange={'ProductUpdate'}
-        defaultValue={product}
+        onChangeUpdate={onChangeUpdate}
+        defaultValue={[
+          product.title,
+          product.brand,
+          product.description,
+          product.price,
+          product.discountPercentage,
+          product.rating,
+          product.stock,
+          product.thumbnail,
+          product.images,
+        ]}
         productButton={' Update Product '}
       />
     </SafeAreaView>
