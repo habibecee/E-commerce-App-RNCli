@@ -1,9 +1,17 @@
-import {Alert, SafeAreaView} from 'react-native';
+import {
+  Alert,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import axiosInstance from '../Utils/axios';
 import {MainContext} from '../Context/Context';
 import ProductChanges from '../Components/ProductChanges';
+import {colors, fonts} from '../Utils/GeneralStyles';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function ProductUpdate(props) {
   const {fetchProducts} = useContext(MainContext);
@@ -33,7 +41,7 @@ export default function ProductUpdate(props) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <ProductChanges
         productUpdateFunc={productUpdate}
         onChange={'ProductUpdate'}
@@ -51,6 +59,33 @@ export default function ProductUpdate(props) {
         ]}
         productButton={' Update Product '}
       />
+
+      <TouchableOpacity style={styles.button} onPress={() => productUpdate()}>
+        <Icon
+          name="checkmark-circle-sharp"
+          size={50}
+          color="green"
+          style={styles.buttonText}
+        />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  button: {
+    position: 'absolute',
+    bottom: 20,
+    right: 30,
+    zIndex: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    padding: 0,
+    backgroundColor: 'transparent',
+  },
+  buttonText: {},
+});

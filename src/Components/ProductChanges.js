@@ -111,24 +111,19 @@ export default function ProductChanges({
           );
         }}
       />
-      {String(onChange) === 'ProductUpdate' ? (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => productUpdateFunc()}>
-          <Text style={styles.buttonText}> Update Product </Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => (
-            productCreate(),
-            setTimeout(() => {
-              navigate('Products');
-            }, 1000)
-          )}>
-          <Text style={styles.buttonText}> Create New Product </Text>
-        </TouchableOpacity>
-      )}
+
+      {/* <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          onChange === 'ProductUpdate'
+            ? productUpdateFunc()
+            : (productCreate(),
+              setTimeout(() => {
+                navigate('Products');
+              }, 1000))
+        }>
+        <Text style={styles.buttonText}> {productButton} </Text>
+      </TouchableOpacity> */}
     </View>
   );
 }
